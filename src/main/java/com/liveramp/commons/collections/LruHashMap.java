@@ -19,6 +19,14 @@ package com.liveramp.commons.collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * A HashMap that will only store a limited number of the most-recently-
+ * accessed key/value pairs. For more information on the exact behavior, have
+ * a look at Java's LinkedHashMap.
+ *
+ * @param <K>
+ * @param <V>
+ */
 public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
 
   private static final float LOAD_FACTOR = 0.75f;
