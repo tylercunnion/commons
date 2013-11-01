@@ -20,7 +20,11 @@ public class LongMemoryUsageEstimator implements MemoryUsageEstimator<Long> {
 
   @Override
   public long estimateMemorySize(Long item) {
-    return 16;
+    if (item == null) {
+      return 8;
+    } else {
+      return 16;
+    }
   }
 
 }

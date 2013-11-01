@@ -20,7 +20,11 @@ public class StringMemoryUsageEstimator implements MemoryUsageEstimator<String> 
 
   @Override
   public long estimateMemorySize(String item) {
-    return 8 * (int) (((item.length() * 2) + 45) / 8);
+    if (item == null) {
+      return 8;
+    } else {
+      return 8 * (int) (((item.length() * 2) + 45) / 8);
+    }
   }
 
 }

@@ -20,7 +20,11 @@ public class IntegerMemoryUsageEstimator implements MemoryUsageEstimator<Integer
 
   @Override
   public long estimateMemorySize(Integer item) {
-    return 16;
+    if (item == null) {
+      return 8;
+    } else {
+      return 16;
+    }
   }
 
 }
