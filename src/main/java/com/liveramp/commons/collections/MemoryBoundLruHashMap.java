@@ -110,15 +110,21 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
   }
 
   private void manage(K key, V value) {
-    numManagedBytes += keyEstimator.estimateMemorySize(key) + valueEstimator.estimateMemorySize(value);
+    if (numBytesCapacity >= 0) {
+      numManagedBytes += keyEstimator.estimateMemorySize(key) + valueEstimator.estimateMemorySize(value);
+    }
   }
 
   private void unmanage(K key, V value) {
-    numManagedBytes -= keyEstimator.estimateMemorySize(key) + valueEstimator.estimateMemorySize(value);
+    if (numBytesCapacity >= 0) {
+      numManagedBytes -= keyEstimator.estimateMemorySize(key) + valueEstimator.estimateMemorySize(value);
+    }
   }
 
   private void unmanage(Map.Entry<K, V> entry) {
-    numManagedBytes -= keyEstimator.estimateMemorySize(entry.getKey()) + valueEstimator.estimateMemorySize(entry.getValue());
+    if (numBytesCapacity >= 0) {
+      numManagedBytes -= keyEstimator.estimateMemorySize(entry.getKey()) + valueEstimator.estimateMemorySize(entry.getValue());
+    }
   }
 
   @Override
