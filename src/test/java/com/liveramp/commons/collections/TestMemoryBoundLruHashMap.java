@@ -17,9 +17,13 @@
 package com.liveramp.commons.collections;
 
 import com.liveramp.commons.util.IntegerMemoryUsageEstimator;
+import com.liveramp.commons.util.LongMemoryUsageEstimator;
 import com.liveramp.commons.util.StringMemoryUsageEstimator;
 import junit.framework.TestCase;
 import org.junit.Test;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public class TestMemoryBoundLruHashMap extends TestCase {
 
@@ -135,5 +139,25 @@ public class TestMemoryBoundLruHashMap extends TestCase {
     assertEquals("a", map.get(1));
     assertEquals("ab", map.get(2));
     assertEquals(null, map.get(3));
+  }
+
+  @Test
+  public void testIterator() {
+    MemoryBoundLruHashMap<Long, Long> map = new MemoryBoundLruHashMap<Long, Long>(10, 1024, new LongMemoryUsageEstimator(), new LongMemoryUsageEstimator());
+    map.putAndEvict(1L, 1L);
+    map.putAndEvict(2L, 2L);
+    map.putAndEvict(3L, 3L);
+
+    Iterator<Map.Entry<Long, Long>> itr = map.iterator();
+    assertEquals(1L, (long) itr.next().getKey());
+    assertEquals(2L, (long) itr.next().getKey());
+    assertEquals(3, map.size());
+    assertEquals(96, map.getNumManagedBytes());
+    itr.remove();
+    assertEquals(2, map.size());
+    assertEquals(64, map.getNumManagedBytes());
+    assertEquals(3L, (long) itr.next().getKey());
+
+    assertFalse(itr.hasNext());
   }
 }

@@ -20,7 +20,7 @@ import com.liveramp.commons.util.MemoryUsageEstimator;
 
 import java.util.*;
 
-public class MemoryBoundLruHashMap<K, V> {
+public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
 
   private long numManagedBytes = 0;
   private final long numBytesCapacity;
@@ -28,7 +28,10 @@ public class MemoryBoundLruHashMap<K, V> {
   private MemoryUsageEstimator<V> valueEstimator;
   private final LruHashMap<K, V> map;
 
-  // Negative capacity values disable the corresponding check
+  public MemoryBoundLruHashMap(int numItemsCapacity) {
+    this(numItemsCapacity, -1, null, null);
+  }
+
   public MemoryBoundLruHashMap(long numBytesCapacity, MemoryUsageEstimator<K> keyEstimator, MemoryUsageEstimator<V> valueEstimator) {
     this(-1, numBytesCapacity, keyEstimator, valueEstimator);
   }
@@ -121,4 +124,38 @@ public class MemoryBoundLruHashMap<K, V> {
   private void unmanage(Map.Entry<K, V> entry) {
     numManagedBytes -= keyEstimator.estimateMemorySize(entry.getKey()) + valueEstimator.estimateMemorySize(entry.getValue());
   }
+
+  @Override
+  public Iterator<Map.Entry<K, V>> iterator() {
+    return new EntryIterator();
+  }
+
+  private class EntryIterator implements Iterator<Map.Entry<K, V>> {
+
+    private Iterator<Map.Entry<K, V>> iterator = map.entrySet().iterator();
+    private Map.Entry<K, V> currentItem;
+
+    @Override
+    public boolean hasNext() {
+      return iterator.hasNext();
+    }
+
+    @Override
+    public Map.Entry<K, V> next() {
+      currentItem = iterator.next();
+      return currentItem;
+    }
+
+    @Override
+    public void remove() {
+      if (currentItem == null) {
+        throw new IllegalStateException();
+      } else {
+        unmanage(currentItem);
+      }
+      iterator.remove();
+    }
+
+  }
+
 }
