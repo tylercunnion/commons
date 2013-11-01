@@ -48,9 +48,10 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
   public List<Map.Entry<K, V>> putAndEvict(K key, V value) {
     List<Map.Entry<K, V>> evicted = null;
 
-    // First, remove from map if it exists
+    // First, unmanage memory usage of existing value since it is about to be replaced
+    // We get() instead of remove() in order to keep the same instance of 'key' in the map
     if (map.containsKey(key)) {
-      V oldValue = map.remove(key);
+      V oldValue = map.get(key);
       unmanage(key, oldValue);
     }
 
