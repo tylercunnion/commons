@@ -32,7 +32,7 @@ public class TestMemoryBoundLruHashMap extends TestCase {
 
     // Insert
 
-    map.put(1, "1"); // 40 byte string
+    map.putAndEvict(1, "1"); // 40 byte string
 
     assertEquals(1, map.size());
     assertEquals(56, map.getNumManagedBytes());
@@ -40,7 +40,7 @@ public class TestMemoryBoundLruHashMap extends TestCase {
 
     // Insert
 
-    map.put(2, "12"); // 48 byte string
+    map.putAndEvict(2, "12"); // 48 byte string
 
     assertEquals(2, map.size());
     assertEquals(120, map.getNumManagedBytes());
@@ -48,7 +48,7 @@ public class TestMemoryBoundLruHashMap extends TestCase {
 
     // Insert which goes over the size threshold
 
-    map.put(3, "1"); // 40 byte string
+    map.putAndEvict(3, "1"); // 40 byte string
 
     assertEquals(2, map.size());
     assertEquals(120, map.getNumManagedBytes());
@@ -56,7 +56,7 @@ public class TestMemoryBoundLruHashMap extends TestCase {
 
     // Insert which goes over the size threshold
 
-    map.put(4, "1234567890"); // 64 byte string
+    map.putAndEvict(4, "1234567890"); // 64 byte string
 
     assertEquals(1, map.size());
     assertEquals(80, map.getNumManagedBytes());
@@ -64,7 +64,7 @@ public class TestMemoryBoundLruHashMap extends TestCase {
 
     // Insert that replaces a value
 
-    map.put(4, "1");
+    map.putAndEvict(4, "1");
 
     assertEquals(1, map.size());
     assertEquals(56, map.getNumManagedBytes());
@@ -72,7 +72,7 @@ public class TestMemoryBoundLruHashMap extends TestCase {
 
     // Insert
 
-    map.put(2, "12");
+    map.putAndEvict(2, "12");
 
     assertEquals(2, map.size());
     assertEquals(120, map.getNumManagedBytes());
@@ -96,7 +96,7 @@ public class TestMemoryBoundLruHashMap extends TestCase {
 
     // Insert
 
-    map.put(1, "a");
+    map.putAndEvict(1, "a");
 
     assertEquals(1, map.size());
     assertEquals(56, map.getNumManagedBytes());
@@ -104,7 +104,7 @@ public class TestMemoryBoundLruHashMap extends TestCase {
 
     // Insert
 
-    map.put(2, "ab");
+    map.putAndEvict(2, "ab");
 
     assertEquals(2, map.size());
     assertEquals(120, map.getNumManagedBytes());
@@ -112,7 +112,7 @@ public class TestMemoryBoundLruHashMap extends TestCase {
 
     // Insert which goes over the num items limit
 
-    map.put(3, "abc");
+    map.putAndEvict(3, "abc");
 
     assertEquals(2, map.size());
     assertEquals(128, map.getNumManagedBytes());
@@ -127,7 +127,7 @@ public class TestMemoryBoundLruHashMap extends TestCase {
 
     // Insert which goes over the num items limit
 
-    map.put(1, "a");
+    map.putAndEvict(1, "a");
 
     assertEquals(2, map.size());
     assertEquals(120, map.getNumManagedBytes());

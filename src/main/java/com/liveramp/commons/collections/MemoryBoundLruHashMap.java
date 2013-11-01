@@ -18,8 +18,7 @@ package com.liveramp.commons.collections;
 
 import com.liveramp.commons.util.MemoryUsageEstimator;
 
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class MemoryBoundLruHashMap<K, V> {
 
@@ -39,10 +38,17 @@ public class MemoryBoundLruHashMap<K, V> {
     this.numBytesCapacity = numBytesCapacity;
     this.keyEstimator = keyEstimator;
     this.valueEstimator = valueEstimator;
-    map = new LruHashMap<K, V>(0, numItemsCapacity);
+    map = new LruHashMap<K, V>(numItemsCapacity, 0);
   }
 
-  public void put(K key, V value) {
+  /**
+   * @param key
+   * @param value
+   * @return a List of all evicted Map Entries. Will return an empty list if nothing was evicted.
+   */
+  public List<Map.Entry<K, V>> putAndEvict(K key, V value) {
+    List<Map.Entry<K, V>> evicted = null;
+
     // First, remove from map if it exists
     if (map.containsKey(key)) {
       V oldValue = map.remove(key);
@@ -57,6 +63,8 @@ public class MemoryBoundLruHashMap<K, V> {
     Map.Entry<K, V> eldestRemoved = map.getAndClearEldestRemoved();
     if (eldestRemoved != null) {
       unmanage(eldestRemoved);
+      evicted = new LinkedList<Map.Entry<K, V>>();
+      evicted.add(eldestRemoved);
     }
 
     // Now remove elements until byte count is under the threshold
@@ -65,9 +73,19 @@ public class MemoryBoundLruHashMap<K, V> {
         Iterator<Map.Entry<K, V>> iterator = map.entrySet().iterator();
         Map.Entry<K, V> eldest = iterator.next();
         unmanage(eldest);
+        if (evicted == null) {
+          evicted = new LinkedList<Map.Entry<K, V>>();
+        }
+        evicted.add(eldest);
         iterator.remove();
       }
     }
+
+    if (evicted == null) {
+      evicted = Collections.emptyList();
+    }
+
+    return evicted;
   }
 
   public V get(K key) {
