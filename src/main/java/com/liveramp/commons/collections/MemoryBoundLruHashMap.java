@@ -28,10 +28,6 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
   private MemoryUsageEstimator<V> valueEstimator;
   private final LruHashMap<K, V> map;
 
-  public MemoryBoundLruHashMap(int numItemsCapacity) {
-    this(numItemsCapacity, -1, null, null);
-  }
-
   public MemoryBoundLruHashMap(long numBytesCapacity, MemoryUsageEstimator<K> keyEstimator, MemoryUsageEstimator<V> valueEstimator) {
     this(-1, numBytesCapacity, keyEstimator, valueEstimator);
   }
