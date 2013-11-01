@@ -23,10 +23,15 @@ public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
 
   private static final float LOAD_FACTOR = 0.75f;
   private final int sizeLimit;
-  private Map.Entry<K, V> eldestRemoved;
+  private Map.Entry<K, V> lastRemoved;
 
   // A limit < 0 means no limit
-  public LruHashMap(int initialCapacity, int sizeLimit) {
+  public LruHashMap(int sizeLimit) {
+    this(sizeLimit, 16);
+  }
+
+  // A limit < 0 means no limit
+  public LruHashMap(int sizeLimit, int initialCapacity) {
     // Note: the super constructor's third argument specifies
     // access-ordering rather than default insertion-ordering
     super(initialCapacity, LOAD_FACTOR, true);
@@ -38,19 +43,25 @@ public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
     if (sizeLimit < 0) {
       return false;
     } else {
-      boolean remove = size() > sizeLimit;
-      if (remove) {
-        eldestRemoved = eldest;
-      } else {
-        eldestRemoved = null;
+      if (size() > sizeLimit) {
+        lastRemoved = eldest;
+        return true;
       }
-      return remove;
+      return false;
     }
   }
 
+  @Override
+  public boolean containsKey(Object o) {
+    // make the key we're looking for recently used.
+    get(o);
+    return super.containsKey(o);
+  }
+
   public Map.Entry<K, V> getAndClearEldestRemoved() {
-    Map.Entry<K, V> result = eldestRemoved;
-    eldestRemoved = null;
+    Map.Entry<K, V> result = lastRemoved;
+    lastRemoved = null;
     return result;
   }
+
 }
