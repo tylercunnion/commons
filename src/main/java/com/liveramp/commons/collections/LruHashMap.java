@@ -59,13 +59,6 @@ public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
     }
   }
 
-  @Override
-  public boolean containsKey(Object o) {
-    // make the key we're looking for recently used.
-    get(o);
-    return super.containsKey(o);
-  }
-
   public Map.Entry<K, V> getAndClearEldestRemoved() {
     Map.Entry<K, V> result = lastRemoved;
     lastRemoved = null;
