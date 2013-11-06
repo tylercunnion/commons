@@ -29,7 +29,7 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
   private final LruHashMap<K, V> map;
 
   public MemoryBoundLruHashMap(long numBytesCapacity, MemoryUsageEstimator<K> keyEstimator, MemoryUsageEstimator<V> valueEstimator) {
-    this(-1, numBytesCapacity, keyEstimator, valueEstimator);
+    this(0, numBytesCapacity, keyEstimator, valueEstimator);
   }
 
   // Negative capacity values disable the corresponding check
@@ -111,19 +111,19 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
   }
 
   private void manage(K key, V value) {
-    if (numBytesCapacity >= 0) {
+    if (numBytesCapacity > 0) {
       numManagedBytes += keyEstimator.estimateMemorySize(key) + valueEstimator.estimateMemorySize(value);
     }
   }
 
   private void unmanage(K key, V value) {
-    if (numBytesCapacity >= 0) {
+    if (numBytesCapacity > 0) {
       numManagedBytes -= keyEstimator.estimateMemorySize(key) + valueEstimator.estimateMemorySize(value);
     }
   }
 
   private void unmanage(Map.Entry<K, V> entry) {
-    if (numBytesCapacity >= 0) {
+    if (numBytesCapacity > 0) {
       numManagedBytes -= keyEstimator.estimateMemorySize(entry.getKey()) + valueEstimator.estimateMemorySize(entry.getValue());
     }
   }

@@ -33,12 +33,12 @@ public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
   private final int sizeLimit;
   private Map.Entry<K, V> lastRemoved;
 
-  // A limit < 0 means no limit
+  // A limit <= 0 means no limit
   public LruHashMap(int sizeLimit) {
     this(sizeLimit, 16);
   }
 
-  // A limit < 0 means no limit
+  // A limit <= 0 means no limit
   public LruHashMap(int sizeLimit, int initialCapacity) {
     // Note: the super constructor's third argument specifies
     // access-ordering rather than default insertion-ordering
@@ -48,7 +48,7 @@ public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
 
   @Override
   protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
-    if (sizeLimit < 0) {
+    if (sizeLimit <= 0) {
       return false;
     } else {
       if (size() > sizeLimit) {
