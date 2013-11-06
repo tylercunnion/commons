@@ -40,7 +40,7 @@ public class TestLruHashMap extends TestCase {
     assertTrue(m.containsKey("blah1"));
     assertTrue(m.containsKey("blah2"));
     // this should make "blah" more recently used than "blah1"
-    assertTrue(m.containsKey("blah"));
+    assertNotNull(m.get("blah"));
 
     m.put("blah3", "blah");
     assertEquals(3, m.size());
