@@ -16,7 +16,9 @@
 
 package com.liveramp.commons.util;
 
-public class IntegerMemoryUsageEstimator implements MemoryUsageEstimator<Integer> {
+import java.io.Serializable;
+
+public class IntegerMemoryUsageEstimator implements MemoryUsageEstimator<Integer>, Serializable {
 
   @Override
   public long estimateMemorySize(Integer item) {
