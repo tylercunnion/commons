@@ -71,7 +71,7 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
     }
 
     // Now remove elements until byte count is under the threshold
-    if (numBytesCapacity >= 0) {
+    if (isMemoryBound()) {
       while (numManagedBytes > numBytesCapacity && map.size() > 0) {
         Iterator<Map.Entry<K, V>> iterator = map.entrySet().iterator();
         Map.Entry<K, V> eldest = iterator.next();
@@ -109,24 +109,40 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
     return map.size();
   }
 
+  public boolean isMemoryBound() {
+    return numBytesCapacity > 0;
+  }
+
   public long getNumManagedBytes() {
     return numManagedBytes;
   }
 
+  public long estimateKeyMemorySize(K key) {
+    return keyEstimator.estimateMemorySize(key);
+  }
+
+  public long estimateValueMemorySize(V value) {
+    return valueEstimator.estimateMemorySize(value);
+  }
+
+  public void adjustNumManagedBytes(long numBytes) {
+    numManagedBytes += numBytes;
+  }
+
   private void manage(K key, V value) {
-    if (numBytesCapacity > 0) {
+    if (isMemoryBound()) {
       numManagedBytes += keyEstimator.estimateMemorySize(key) + valueEstimator.estimateMemorySize(value);
     }
   }
 
   private void unmanage(K key, V value) {
-    if (numBytesCapacity > 0) {
+    if (isMemoryBound()) {
       numManagedBytes -= keyEstimator.estimateMemorySize(key) + valueEstimator.estimateMemorySize(value);
     }
   }
 
   private void unmanage(Map.Entry<K, V> entry) {
-    if (numBytesCapacity > 0) {
+    if (isMemoryBound()) {
       numManagedBytes -= keyEstimator.estimateMemorySize(entry.getKey()) + valueEstimator.estimateMemorySize(entry.getValue());
     }
   }
