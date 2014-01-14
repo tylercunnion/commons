@@ -150,13 +150,11 @@ public class BytesHelper {
     return remaining;
   }
 
-
-  public static byte[] CopyByteBufferToByteArray(ByteBuffer byteBuffer) {
+  public static byte[] copyByteBufferToByteArray(ByteBuffer byteBuffer) {
     byte[] result = new byte[byteBuffer.remaining()];
     System.arraycopy(byteBuffer.array(), byteBuffer.arrayOffset() + byteBuffer.position(), result, 0, byteBuffer.remaining());
     return result;
   }
-
 
   public static boolean wrapsFullArray(ByteBuffer byteBuffer) {
     return byteBuffer.hasArray()
