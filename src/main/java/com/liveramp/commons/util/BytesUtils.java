@@ -16,6 +16,7 @@
 package com.liveramp.commons.util;
 
 import java.io.UnsupportedEncodingException;
+import org.apache.commons.codec.binary.Hex;
 import java.nio.ByteBuffer;
 import java.util.Comparator;
 
@@ -180,5 +181,9 @@ public class BytesUtils {
 
   public static int compareBytes(byte[] b1, byte[] b2) {
     return BYTES_COMPARATOR.compare(b1, b2);
+  }
+
+  public static String encodeHex(byte[] bytes) {
+    return String.valueOf(Hex.encodeHex(bytes));
   }
 }
