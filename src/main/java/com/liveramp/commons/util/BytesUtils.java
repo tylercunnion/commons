@@ -1,10 +1,10 @@
 package com.liveramp.commons.util;
 
-import com.google.common.primitives.UnsignedBytes;
-
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.Comparator;
+
+import com.google.common.primitives.UnsignedBytes;
 
 public class BytesUtils {
   private static final Comparator<byte[]> BYTES_COMPARATOR = UnsignedBytes.lexicographicalComparator();
@@ -150,7 +150,7 @@ public class BytesUtils {
     return remaining;
   }
 
-  public static byte[] copyByteBufferToByteArray(ByteBuffer byteBuffer) {
+  public static byte[] deepCopyByteBufferToByteArray(ByteBuffer byteBuffer) {
     byte[] result = new byte[byteBuffer.remaining()];
     System.arraycopy(byteBuffer.array(), byteBuffer.arrayOffset() + byteBuffer.position(), result, 0, byteBuffer.remaining());
     return result;
