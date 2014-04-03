@@ -64,10 +64,10 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
     // Add to map
     map.put(key, value);
     manage(key, value);
-    return evict();
+    return evictIfNecessary();
   }
 
-  public List<Map.Entry<K, V>> evict() {
+  public List<Map.Entry<K, V>> evictIfNecessary() {
     List<Map.Entry<K, V>> evicted = null;
 
     // If an eldest element was removed, update byte count
