@@ -16,9 +16,13 @@
 
 package com.liveramp.commons.collections;
 
-import com.liveramp.commons.util.MemoryUsageEstimator;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-import java.util.*;
+import com.liveramp.commons.util.MemoryUsageEstimator;
 
 public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
 
@@ -72,8 +76,8 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
 
     // Now remove elements until byte count is under the threshold
     if (isMemoryBound()) {
+      Iterator<Map.Entry<K, V>> iterator = map.entrySet().iterator();
       while (numManagedBytes > numBytesCapacity && map.size() > 0) {
-        Iterator<Map.Entry<K, V>> iterator = map.entrySet().iterator();
         Map.Entry<K, V> eldest = iterator.next();
         unmanage(eldest);
         if (evicted == null) {
