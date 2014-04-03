@@ -53,7 +53,6 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
    * @return a List of all evicted Map Entries. Will return an empty list if nothing was evicted.
    */
   public List<Map.Entry<K, V>> putAndEvict(K key, V value) {
-    List<Map.Entry<K, V>> evicted = null;
 
     // First, unmanage memory usage of existing value since it is about to be replaced
     // We get() instead of remove() in order to keep the same instance of 'key' in the map
@@ -65,6 +64,11 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
     // Add to map
     map.put(key, value);
     manage(key, value);
+    return evict();
+  }
+
+  public List<Map.Entry<K, V>> evict() {
+    List<Map.Entry<K, V>> evicted = null;
 
     // If an eldest element was removed, update byte count
     Map.Entry<K, V> eldestRemoved = map.getAndClearEldestRemoved();
