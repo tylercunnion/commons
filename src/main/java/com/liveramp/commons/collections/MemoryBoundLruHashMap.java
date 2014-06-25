@@ -57,14 +57,14 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
     // First, unmanage memory usage of existing value since it is about to be replaced
     // We get() instead of remove() in order to keep the same instance of 'key' in the map
     if (map.containsKey(key)) {
-      V oldValue = map.get(key);
+      V oldValue = map.get(key); //TODO map.remove(key)
       unmanage(key, oldValue);
     }
 
     // Add to map
     map.put(key, value);
     manage(key, value);
-    return evictIfNecessary();
+    return evictIfNecessary(); //TODO: returned void
   }
 
   public List<Map.Entry<K, V>> evictIfNecessary() {
@@ -74,12 +74,12 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
     Map.Entry<K, V> eldestRemoved = map.getAndClearEldestRemoved();
     if (eldestRemoved != null) {
       unmanage(eldestRemoved);
-      evicted = new LinkedList<Map.Entry<K, V>>();
+      evicted = new LinkedList<Map.Entry<K, V>>(); //TODO: didn't do this evicted business.
       evicted.add(eldestRemoved);
     }
 
     // Now remove elements until byte count is under the threshold
-    if (isMemoryBound()) {
+    if (isMemoryBound()) { //TODO: was maxNumberManagedBytes >=0
       Iterator<Map.Entry<K, V>> iterator = map.entrySet().iterator();
       while (numManagedBytes > numBytesCapacity && map.size() > 0) {
         Map.Entry<K, V> eldest = iterator.next();
@@ -153,6 +153,14 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
     if (isMemoryBound()) {
       numManagedBytes -= keyEstimator.estimateMemorySize(entry.getKey()) + valueEstimator.estimateMemorySize(entry.getValue());
     }
+  }
+
+  public long getMaxNumManagedBytes() {
+    return numBytesCapacity;
+  }
+
+  public int getMaxNumItems() {
+    return map.getMaxCapacity();
   }
 
   @Override
