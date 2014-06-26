@@ -91,11 +91,9 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
         iterator.remove();
       }
     }
-
     if (evicted == null) {
       evicted = Collections.emptyList();
     }
-
     return evicted;
   }
 
@@ -155,6 +153,14 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
     }
   }
 
+  public long getMaxNumManagedBytes() {
+    return numBytesCapacity;
+  }
+
+  public int getMaxNumItems() {
+    return map.getMaxCapacity();
+  }
+
   @Override
   public Iterator<Map.Entry<K, V>> iterator() {
     return new EntryIterator();
@@ -185,7 +191,5 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
       }
       iterator.remove();
     }
-
   }
-
 }

@@ -65,4 +65,8 @@ public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
     return result;
   }
 
+  public int getMaxCapacity() {
+    return sizeLimit;
+  }
+
 }
