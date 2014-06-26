@@ -33,7 +33,7 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
   private final LruHashMap<K, V> map;
 
   public MemoryBoundLruHashMap(long numBytesCapacity, MemoryUsageEstimator<K> keyEstimator, MemoryUsageEstimator<V> valueEstimator) {
-    this(0, numBytesCapacity, keyEstimator, valueEstimator);
+    this(-1, numBytesCapacity, keyEstimator, valueEstimator);
   }
 
   // Capacity of 0 disables the corresponding check
@@ -116,7 +116,7 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
   }
 
   public boolean isMemoryBound() {
-    return numBytesCapacity > 0;
+    return numBytesCapacity >= 0;
   }
 
   public long getNumManagedBytes() {
