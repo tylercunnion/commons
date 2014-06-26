@@ -36,12 +36,12 @@ public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
     this(-1, numBytesCapacity, keyEstimator, valueEstimator);
   }
 
-  // Capacity of 0 disables the corresponding check
+  // Negative capacity disables the corresponding check
   public MemoryBoundLruHashMap(int numItemsCapacity, long numBytesCapacity, MemoryUsageEstimator<K> keyEstimator, MemoryUsageEstimator<V> valueEstimator) {
     this.numBytesCapacity = numBytesCapacity;
     this.keyEstimator = keyEstimator;
     this.valueEstimator = valueEstimator;
-    if (numBytesCapacity > 0 && (keyEstimator == null || valueEstimator == null)) {
+    if (numBytesCapacity >= 0 && (keyEstimator == null || valueEstimator == null)) {
       throw new IllegalArgumentException("Key and value estimators must be provided when using a memory based limit.");
     }
     map = new LruHashMap<K, V>(numItemsCapacity, 0);
