@@ -27,6 +27,7 @@ import com.liveramp.commons.util.MemoryUsageEstimator;
 public class MemoryBoundLruHashMap<K, V> implements Iterable<Map.Entry<K, V>> {
 
   public static final long UNLIMITED_MEMORY_CAPACITY = -1;
+  public static final int UNLIMITED_ITEM_CAPACITY = -1;
 
   private long numManagedBytes = 0;
   private final long numBytesCapacity;
