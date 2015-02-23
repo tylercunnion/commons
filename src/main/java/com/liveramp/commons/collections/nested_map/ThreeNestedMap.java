@@ -15,6 +15,11 @@ public class ThreeNestedMap<K1, K2, K3, V> implements Iterable<ThreeNestedMap.En
   public ThreeNestedMap() {
     this.defaultValue = null;
   }
+
+  public ThreeNestedMap(ThreeNestedMap<K1, K2, K3, V> other){
+    this.defaultValue = other.defaultValue;
+    this.putAll(other);
+  }
   public Set<K1> key1Set() {
     if(data.keySet() != null) {
       return data.keySet();
@@ -78,7 +83,7 @@ public class ThreeNestedMap<K1, K2, K3, V> implements Iterable<ThreeNestedMap.En
     return data.get(k1);
   }
   public Map<K3, V> get(K1 k1, K2 k2) {
-    return (data.get(k1) == null || data.get(k1).get(k2) == null) ? null : data.get(k1).get(k2);
+    return (data.get(k1) == null || data.get(k1).get(k2) == null) ? Collections.<K3, V>emptyMap() : data.get(k1).get(k2);
   }
   public V get(K1 k1, K2 k2, K3 k3) {
     return (data.get(k1) == null || data.get(k1).get(k2, k3) == null) ? defaultValue : data.get(k1).get(k2, k3);
@@ -147,6 +152,18 @@ public class ThreeNestedMap<K1, K2, K3, V> implements Iterable<ThreeNestedMap.En
       entries.add(new Entry<K1, K2, K3, V>(next, get(next)));
     }
     return entries;
+  }
+
+  public void putAll(ThreeNestedMap<K1, K2, K3, V> map){
+    for(K1 key : map.key1Set()){
+      TwoNestedMap<K2, K3, V> currentSubMap = this.get(key);
+      currentSubMap.putAll(map.get(key));
+      this.put(key, currentSubMap);
+    }
+  }
+
+  public void put(K1 key, TwoNestedMap<K2, K3, V> map){
+    data.put(key, map);
   }
 
   public Iterator<Entry<K1, K2, K3, V>> iterator() {

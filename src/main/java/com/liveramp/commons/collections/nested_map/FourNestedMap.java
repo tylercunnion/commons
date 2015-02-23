@@ -15,6 +15,11 @@ public class FourNestedMap<K1, K2, K3, K4, V> implements Iterable<FourNestedMap.
   public FourNestedMap() {
     this.defaultValue = null;
   }
+
+  public FourNestedMap(FourNestedMap<K1, K2, K3, K4, V> other){
+    this.defaultValue = other.defaultValue;
+    this.putAll(other);
+  }
   public Set<K1> key1Set() {
     if(data.keySet() != null) {
       return data.keySet();
@@ -124,10 +129,10 @@ public class FourNestedMap<K1, K2, K3, K4, V> implements Iterable<FourNestedMap.
     return data.get(k1);
   }
   public TwoNestedMap<K3, K4, V> get(K1 k1, K2 k2) {
-    return (data.get(k1) == null || data.get(k1).get(k2) == null) ? null : data.get(k1).get(k2);
+    return (data.get(k1) == null || data.get(k1).get(k2) == null) ? new TwoNestedMap<K3, K4, V>() : data.get(k1).get(k2);
   }
   public Map<K4, V> get(K1 k1, K2 k2, K3 k3) {
-    return (data.get(k1) == null || data.get(k1).get(k2, k3) == null) ? null : data.get(k1).get(k2, k3);
+    return (data.get(k1) == null || data.get(k1).get(k2, k3) == null) ? Collections.<K4, V>emptyMap() : data.get(k1).get(k2, k3);
   }
   public V get(K1 k1, K2 k2, K3 k3, K4 k4) {
     return (data.get(k1) == null || data.get(k1).get(k2, k3, k4) == null) ? defaultValue : data.get(k1).get(k2, k3, k4);
@@ -201,6 +206,18 @@ public class FourNestedMap<K1, K2, K3, K4, V> implements Iterable<FourNestedMap.
       entries.add(new Entry<K1, K2, K3, K4, V>(next, get(next)));
     }
     return entries;
+  }
+
+  public void putAll(FourNestedMap<K1, K2, K3, K4, V> map){
+    for(K1 key : map.key1Set()){
+      ThreeNestedMap<K2, K3, K4, V> currentSubMap = this.get(key);
+      currentSubMap.putAll(map.get(key));
+      this.put(key, currentSubMap);
+    }
+  }
+
+  public void put(K1 key, ThreeNestedMap<K2, K3, K4, V> map){
+    data.put(key, map);
   }
 
   public Iterator<Entry<K1, K2, K3, K4, V>> iterator() {

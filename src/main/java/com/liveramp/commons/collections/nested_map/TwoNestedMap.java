@@ -1,16 +1,7 @@
 package com.liveramp.commons.collections.nested_map;
 
+import java.util.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import com.google.common.collect.Lists;
 
@@ -21,50 +12,43 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
   public TwoNestedMap(V defaultValue) {
     this.defaultValue = defaultValue;
   }
-
   public TwoNestedMap() {
     this.defaultValue = null;
   }
 
-  public TwoNestedMap(TwoNestedMap<K1, K2, V> map) {
-    this.defaultValue = map.defaultValue;
-    this.putAll(map);
+  public TwoNestedMap(TwoNestedMap<K1, K2, V> other){
+    this.defaultValue = other.defaultValue;
+    this.putAll(other);
   }
-
   public Set<K1> key1Set() {
-    if (data.keySet() != null) {
+    if(data.keySet() != null) {
       return data.keySet();
-    } else {
-      return Collections.emptySet();
     }
+    else return Collections.emptySet();
   }
-
   public Set<K2> key2Set(K1 k1) {
-    if (data.get(k1) != null) {
+    if(data.get(k1) != null) {
       return data.get(k1).keySet();
     } else {
-      return Collections.emptySet();
+    return Collections.emptySet();
     }
   }
-
   public Set<TwoKeyTuple<K1, K2>> key12Set() {
-    if (data.keySet().isEmpty()) {
+    if(data.keySet().isEmpty()) {
       return Collections.emptySet();
     }
     Set<TwoKeyTuple<K1, K2>> tuples = new HashSet<TwoKeyTuple<K1, K2>>();
-    for (K1 k1 : data.keySet()) {
+    for(K1 k1 : data.keySet()) {
       Map<K2, V> map1 = data.get(k1);
-      for (K2 k2 : map1.keySet()) {
+      for(K2 k2: map1.keySet()) {
         tuples.add(new TwoKeyTuple<K1, K2>(k1, k2));
       }
     }
     return tuples;
   }
-
   public Map<K2, V> get(K1 k1) {
     return data.get(k1);
   }
-
   public V get(K1 k1, K2 k2) {
     return (data.get(k1) == null || data.get(k1).get(k2) == null) ? defaultValue : data.get(k1).get(k2);
   }
@@ -72,7 +56,6 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
   public V get(TwoKeyTuple tuple) {
     return data.get(tuple.head()).get(tuple.tail());
   }
-
   public List<K1> key1Sort(Comparator<K1> sort) {
     List<K1> list = Lists.newArrayList(key1Set());
     Collections.sort(list, sort);
@@ -80,20 +63,10 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
   }
 
   public void put(K1 k1, K2 k2, V v) {
-    if (data.get(k1) == null) {
+    if(data.get(k1) == null) {
       data.put(k1, new HashMap<K2, V>());
     }
     data.get(k1).put(k2, v);
-  }
-
-  public void put(K1 k1, Map<K2, V> map) {
-    data.put(k1, map);
-  }
-
-  public void putAll(TwoNestedMap<K1, K2, V> map) {
-    for (Entry<K1, K2, V> entry : map.entrySet()) {
-      this.put(entry.getK1(), entry.getK2(), entry.getValue());
-    }
   }
 
   public void clear() {
@@ -103,7 +76,7 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
   public Collection<V> values() {
     Iterator<Entry<K1, K2, V>> iterator = iterator();
     List<V> values = new ArrayList();
-    while (iterator.hasNext()) {
+    while(iterator.hasNext()) {
       values.add(iterator.next().getValue());
     }
     return values;
@@ -133,18 +106,29 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
     Set<TwoKeyTuple<K1, K2>> tuples = key12Set();
     Iterator<TwoKeyTuple<K1, K2>> i = tuples.iterator();
     Set<Entry<K1, K2, V>> entries = new HashSet<Entry<K1, K2, V>>();
-    while (i.hasNext()) {
+    while(i.hasNext()) {
       TwoKeyTuple<K1, K2> next = i.next();
       entries.add(new Entry<K1, K2, V>(next, get(next)));
     }
     return entries;
   }
 
+  public void putAll(TwoNestedMap<K1, K2, V> map){
+    for(K1 key : map.key1Set()){
+      Map<K2, V> currentSubMap = this.get(key);
+      currentSubMap.putAll(map.get(key));
+      this.put(key, currentSubMap);
+    }
+  }
+
+  public void put(K1 key, Map<K2, V> map){
+    data.put(key, map);
+  }
+
   public Iterator<Entry<K1, K2, V>> iterator() {
     return entrySet().iterator();
   }
-
-  public static class Entry<K1, K2, V> {
+  public static class Entry<K1, K2, V>  {
     private final TwoKeyTuple<K1, K2> keyTuple;
     private final V value;
 
@@ -165,11 +149,9 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
     public TwoKeyTuple<K1, K2> getKey() {
       return keyTuple;
     }
-
     public K1 getK1() {
       return keyTuple.getK1();
     }
-
     public K2 getK2() {
       return keyTuple.getK2();
     }
@@ -187,10 +169,10 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
       if (this == o) {
         return true;
       }
-      if (o == null || getClass() != o.getClass()) {
+      if(o == null || getClass() != o.getClass()) {
         return false;
       }
-      Entry entry = (Entry)o;
+      Entry entry = (Entry) o;
       return (getKey().equals(entry.getKey()) && getValue().equals(entry.getValue()));
     }
 
