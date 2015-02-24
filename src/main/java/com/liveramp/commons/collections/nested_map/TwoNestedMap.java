@@ -47,7 +47,7 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
     return tuples;
   }
   public Map<K2, V> get(K1 k1) {
-    return data.get(k1);
+    return (data.get(k1) == null) ? new HashMap<K2, V>() : data.get(k1);
   }
   public V get(K1 k1, K2 k2) {
     return (data.get(k1) == null || data.get(k1).get(k2) == null) ? defaultValue : data.get(k1).get(k2);
@@ -116,9 +116,6 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
   public void putAll(TwoNestedMap<K1, K2, V> map){
     for(K1 key : map.key1Set()){
       Map<K2, V> currentSubMap = this.get(key);
-      if (currentSubMap == null) {
-        currentSubMap = new HashMap<K2, V>(); 
-      }
       currentSubMap.putAll(map.get(key));
       this.put(key, currentSubMap);
     }

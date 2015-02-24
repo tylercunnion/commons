@@ -17,7 +17,7 @@ def getGets(k)
   methods = []
   firstMethod = []
   firstMethod << "  public #{$classNames[k-1]}<#{getGenerics(2..k)}, V> get(K1 k1) {"
-  firstMethod << "    return data.get(k1);"
+  firstMethod << "    return (data.get(k1) == null) ? new #{(k == 2) ? "HashMap" : $classNames[k-1]}<#{getGenerics((2..k))}, V>() : data.get(k1);"
   firstMethod << "  }"
   methods << firstMethod
   (2..k-1).each do |i|
@@ -253,9 +253,6 @@ public class #{className}<#{getGenerics((1..i))}, V> implements Iterable<#{class
   public void putAll(#{className}<#{getGenerics((1..i))}, V> map){
     for(K1 key : map.key1Set()){
       #{lastClassName}<#{getGenerics((2..i))}, V> currentSubMap = this.get(key);
-      if (currentSubMap == null) {
-        currentSubMap = new #{(i == 2) ? "HashMap" : lastClassName}<#{getGenerics((2..i))}, V>(); 
-      }
       currentSubMap.putAll(map.get(key));
       this.put(key, currentSubMap);
     }
