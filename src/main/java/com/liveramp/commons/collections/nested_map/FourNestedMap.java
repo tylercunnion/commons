@@ -211,6 +211,9 @@ public class FourNestedMap<K1, K2, K3, K4, V> implements Iterable<FourNestedMap.
   public void putAll(FourNestedMap<K1, K2, K3, K4, V> map){
     for(K1 key : map.key1Set()){
       ThreeNestedMap<K2, K3, K4, V> currentSubMap = this.get(key);
+      if (currentSubMap == null) {
+        currentSubMap = new ThreeNestedMap<K2, K3, K4, V>(); 
+      }
       currentSubMap.putAll(map.get(key));
       this.put(key, currentSubMap);
     }

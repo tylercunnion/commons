@@ -253,6 +253,9 @@ public class #{className}<#{getGenerics((1..i))}, V> implements Iterable<#{class
   public void putAll(#{className}<#{getGenerics((1..i))}, V> map){
     for(K1 key : map.key1Set()){
       #{lastClassName}<#{getGenerics((2..i))}, V> currentSubMap = this.get(key);
+      if (currentSubMap == null) {
+        currentSubMap = new #{(i == 2) ? "HashMap" : lastClassName}<#{getGenerics((2..i))}, V>(); 
+      }
       currentSubMap.putAll(map.get(key));
       this.put(key, currentSubMap);
     }
