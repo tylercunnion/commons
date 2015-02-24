@@ -116,6 +116,9 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
   public void putAll(TwoNestedMap<K1, K2, V> map){
     for(K1 key : map.key1Set()){
       Map<K2, V> currentSubMap = this.get(key);
+      if (currentSubMap == null) {
+        currentSubMap = new HashMap<K2, V>(); 
+      }
       currentSubMap.putAll(map.get(key));
       this.put(key, currentSubMap);
     }

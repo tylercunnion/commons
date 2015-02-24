@@ -157,6 +157,9 @@ public class ThreeNestedMap<K1, K2, K3, V> implements Iterable<ThreeNestedMap.En
   public void putAll(ThreeNestedMap<K1, K2, K3, V> map){
     for(K1 key : map.key1Set()){
       TwoNestedMap<K2, K3, V> currentSubMap = this.get(key);
+      if (currentSubMap == null) {
+        currentSubMap = new TwoNestedMap<K2, K3, V>(); 
+      }
       currentSubMap.putAll(map.get(key));
       this.put(key, currentSubMap);
     }
