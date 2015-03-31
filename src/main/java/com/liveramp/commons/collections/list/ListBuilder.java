@@ -1,5 +1,6 @@
 package com.liveramp.commons.collections.list;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
@@ -16,6 +17,11 @@ public class ListBuilder<T> {
 
   public ListBuilder<T> add(T item){
     list.add(item);
+    return this;
+  }
+
+  public ListBuilder<T> addAll(Collection<T> item){
+    list.addAll(item);
     return this;
   }
 
