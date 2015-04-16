@@ -1,6 +1,7 @@
 package com.liveramp.commons.collections.map;
 
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,5 +37,9 @@ public class MapBuilder<K, V> {
 
   public static <K, V> MapBuilder<K, V> of(K key, V value){
     return new MapBuilder<K, V>().put(key, value);
+  }
+
+  public static <K extends Enum<K>, V> MapBuilder<K, V> fromEnum(Class<K> klass) {
+    return new MapBuilder<K, V>(new EnumMap<K, V>(klass));
   }
 }
