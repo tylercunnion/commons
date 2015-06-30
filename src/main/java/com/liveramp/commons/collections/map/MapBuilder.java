@@ -5,6 +5,8 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 public class MapBuilder<K, V> {
 
   private Map<K, V> map;
@@ -19,6 +21,11 @@ public class MapBuilder<K, V> {
 
   public MapBuilder<K, V> put(K key, V value) {
     map.put(key, value);
+    return this;
+  }
+
+  public MapBuilder<K, V> put(Pair<K, V> pair){
+    map.put(pair.getKey(), pair.getValue());
     return this;
   }
 
