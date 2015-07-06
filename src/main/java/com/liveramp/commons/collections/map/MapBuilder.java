@@ -1,5 +1,6 @@
 package com.liveramp.commons.collections.map;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -26,6 +27,13 @@ public class MapBuilder<K, V> {
 
   public MapBuilder<K, V> put(Pair<K, V> pair){
     map.put(pair.getKey(), pair.getValue());
+    return this;
+  }
+
+  public MapBuilder<K, V> putAll(Collection<Pair<K, V>> pairs){
+    for (Pair<K, V> pair : pairs) {
+      map.put(pair.getKey(), pair.getValue());
+    }
     return this;
   }
 
