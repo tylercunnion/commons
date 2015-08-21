@@ -5,10 +5,13 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import junit.framework.TestCase;
 import org.junit.Test;
 
-public class TestMapN extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+public class TestMapN {
 
   @Test
   public void testIt(){
@@ -26,12 +29,12 @@ public class TestMapN extends TestCase {
     HashSet set = Sets.newHashSet(entries4);
 
     System.out.println(set);
-    System.out.println(new FourNestedMap.Entry<Integer, Integer, Byte, String, Long>(2, 2, (byte) 1, "A", 8l));
+    System.out.println(new FourNestedMap.Entry<>(2, 2, (byte)1, "A", 8l));
 
-    assertEquals(Sets.newHashSet(new FourNestedMap.Entry<Integer, Integer, Byte, String, Long>(2, 2, (byte)1, "A", 8l),
-        new FourNestedMap.Entry<Integer, Integer, Byte, String, Long>(1, 2, (byte)1, "A", 7l),
-        new FourNestedMap.Entry<Integer, Integer, Byte, String, Long>(1, 3, (byte)1, "A", 7l),
-        new FourNestedMap.Entry<Integer, Integer, Byte, String, Long>(1, 3, (byte)2, "A", 7l)), set);
+    assertEquals(Sets.newHashSet(new FourNestedMap.Entry<>(2, 2, (byte)1, "A", 8l),
+        new FourNestedMap.Entry<>(1, 2, (byte)1, "A", 7l),
+        new FourNestedMap.Entry<>(1, 3, (byte)1, "A", 7l),
+        new FourNestedMap.Entry<>(1, 3, (byte)2, "A", 7l)), set);
 
     //  test 3 - index maps
     
@@ -46,12 +49,12 @@ public class TestMapN extends TestCase {
     
     Iterator<ThreeNestedMap.Entry<String, Long, String, Integer>> entries = map.iterator();
 
-    Set<ThreeNestedMap.Entry<String, Long, String, Integer>> expected = Sets.newHashSet(new ThreeNestedMap.Entry<String, Long, String, Integer>("a",1l,"1",35),
-    new ThreeNestedMap.Entry<String, Long, String, Integer>("b",2l,"1",34),
-    new ThreeNestedMap.Entry<String, Long, String, Integer>("b",3l,"3",34),
-    new ThreeNestedMap.Entry<String, Long, String, Integer>("d",3l,"1",33),
-    new ThreeNestedMap.Entry<String, Long, String, Integer>("e",3l,"1",30),
-    new ThreeNestedMap.Entry<String, Long, String, Integer>("e",3l,"2",31));
+    Set<ThreeNestedMap.Entry<String, Long, String, Integer>> expected = Sets.newHashSet(new ThreeNestedMap.Entry<>("a", 1l, "1", 35),
+        new ThreeNestedMap.Entry<>("b", 2l, "1", 34),
+        new ThreeNestedMap.Entry<>("b", 3l, "3", 34),
+        new ThreeNestedMap.Entry<>("d", 3l, "1", 33),
+        new ThreeNestedMap.Entry<>("e", 3l, "1", 30),
+        new ThreeNestedMap.Entry<>("e", 3l, "2", 31));
     assertEquals(expected, Sets.newHashSet(entries));
 
     ThreeNestedMap<String, Long, String, Integer> map2 = new ThreeNestedMap<String, Long, String, Integer>();
@@ -70,8 +73,8 @@ public class TestMapN extends TestCase {
     Iterator<TwoNestedMap.Entry<String, String, Integer>> entries2 = map3.iterator();
     assertTrue(entries2.hasNext());
     
-    assertEquals(new TwoNestedMap.Entry<String, String, Integer>("a","1",35), entries2.next());
-    assertEquals(new TwoNestedMap.Entry<String, String, Integer>("b","1",34), entries2.next());
+    assertEquals(new TwoNestedMap.Entry<>("a", "1", 35), entries2.next());
+    assertEquals(new TwoNestedMap.Entry<>("b", "1", 34), entries2.next());
     assertFalse(entries2.hasNext());
     
     for(TwoNestedMap.Entry<String, String, Integer> entry: map3){
@@ -80,7 +83,16 @@ public class TestMapN extends TestCase {
     
     TwoNestedMap<String, String, Integer> map4 = new TwoNestedMap<String, String, Integer>();
     assertFalse(map4.iterator().hasNext());
-    
+
   }
-  
+
+  @Test
+  public void testDefaultEmptyNested() throws Exception {
+
+    ThreeNestedMap<String, String, String, Long> map = new ThreeNestedMap<>(0l);
+    TwoNestedMap<String, String, Long> sub = map.get("a");
+
+    assertEquals(0l, (long) sub.get("some", "value"));
+
+  }
 }

@@ -80,7 +80,7 @@ public class ThreeNestedMap<K1, K2, K3, V> implements Iterable<ThreeNestedMap.En
     }
   }
   public TwoNestedMap<K2, K3, V> get(K1 k1) {
-    return (data.get(k1) == null) ? new TwoNestedMap<K2, K3, V>() : data.get(k1);
+    return (data.get(k1) == null) ? new TwoNestedMap<K2, K3, V>(defaultValue) : data.get(k1);
   }
   public Map<K3, V> get(K1 k1, K2 k2) {
     return (data.get(k1) == null || data.get(k1).get(k2) == null) ? Collections.<K3, V>emptyMap() : data.get(k1).get(k2);

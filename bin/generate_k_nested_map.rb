@@ -16,8 +16,10 @@ package = output_path.split("/").drop_while{|p| p != "java"}.drop(1).join(".")
 def getGets(k)
   methods = []
   firstMethod = []
+  generics = getGenerics((2..k))
+  className = $classNames[k-1]
   firstMethod << "  public #{$classNames[k-1]}<#{getGenerics(2..k)}, V> get(K1 k1) {"
-  firstMethod << "    return (data.get(k1) == null) ? new #{(k == 2) ? "HashMap" : $classNames[k-1]}<#{getGenerics((2..k))}, V>() : data.get(k1);"
+  firstMethod << "    return (data.get(k1) == null) ? new #{(k == 2) ? "HashMap<#{generics}, V>()" : "#{className}<#{generics}, V>(defaultValue)"} : data.get(k1);"
   firstMethod << "  }"
   methods << firstMethod
   (2..k-1).each do |i|
