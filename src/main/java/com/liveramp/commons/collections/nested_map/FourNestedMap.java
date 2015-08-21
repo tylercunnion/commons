@@ -126,7 +126,7 @@ public class FourNestedMap<K1, K2, K3, K4, V> implements Iterable<FourNestedMap.
     }
   }
   public ThreeNestedMap<K2, K3, K4, V> get(K1 k1) {
-    return (data.get(k1) == null) ? new ThreeNestedMap<K2, K3, K4, V>() : data.get(k1);
+    return (data.get(k1) == null) ? new ThreeNestedMap<K2, K3, K4, V>(defaultValue) : data.get(k1);
   }
   public TwoNestedMap<K3, K4, V> get(K1 k1, K2 k2) {
     return (data.get(k1) == null || data.get(k1).get(k2) == null) ? new TwoNestedMap<K3, K4, V>() : data.get(k1).get(k2);
