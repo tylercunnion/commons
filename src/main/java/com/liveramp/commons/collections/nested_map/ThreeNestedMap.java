@@ -169,6 +169,15 @@ public class ThreeNestedMap<K1, K2, K3, V> implements Iterable<ThreeNestedMap.En
   public Iterator<Entry<K1, K2, K3, V>> iterator() {
     return entrySet().iterator();
   }
+
+  @Override
+  public String toString() {
+    return "ThreeNestedMap{" +
+        "data=" + data +
+        ", defaultValue=" + defaultValue +
+        '}';
+  }
+
   public static class Entry<K1, K2, K3, V>  {
     private final ThreeKeyTuple<K1, K2, K3> keyTuple;
     private final V value;

@@ -128,6 +128,15 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
   public Iterator<Entry<K1, K2, V>> iterator() {
     return entrySet().iterator();
   }
+
+  @Override
+  public String toString() {
+    return "TwoNestedMap{" +
+        "data=" + data +
+        ", defaultValue=" + defaultValue +
+        '}';
+  }
+
   public static class Entry<K1, K2, V>  {
     private final TwoKeyTuple<K1, K2> keyTuple;
     private final V value;

@@ -223,6 +223,15 @@ public class FourNestedMap<K1, K2, K3, K4, V> implements Iterable<FourNestedMap.
   public Iterator<Entry<K1, K2, K3, K4, V>> iterator() {
     return entrySet().iterator();
   }
+
+  @Override
+  public String toString() {
+    return "FourNestedMap{" +
+        "data=" + data +
+        ", defaultValue=" + defaultValue +
+        '}';
+  }
+
   public static class Entry<K1, K2, K3, K4, V>  {
     private final FourKeyTuple<K1, K2, K3, K4> keyTuple;
     private final V value;

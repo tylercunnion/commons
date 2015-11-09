@@ -267,6 +267,15 @@ public class #{className}<#{getGenerics((1..i))}, V> implements Iterable<#{class
   public Iterator<Entry<#{getGenerics(1..i)}, V>> iterator() {
     return entrySet().iterator();
   }
+
+  @Override
+  public String toString() {
+    return \"#{$numbers[i]}NestedMap{\" +
+        \"data=\" + data +
+        \", defaultValue=\" + defaultValue +
+        '}';
+  }
+
   public static class Entry<#{getGenerics(1..i)}, V>  {
     private final #{tupleName}<#{getGenerics(1..i)}> keyTuple;
     private final V value;
