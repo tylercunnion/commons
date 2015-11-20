@@ -26,6 +26,11 @@ public class MultimapBuilder<K, V> {
     return this;
   }
 
+  public MultimapBuilder<K, V> putAll(K key, Iterable<V> values){
+    map.putAll(key, values);
+    return this;
+  }
+
   public Multimap<K, V> get() {
     return map;
   }
