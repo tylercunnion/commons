@@ -26,4 +26,10 @@ public class CountingMap<T> {
     return map;
   }
 
+  public void incrementAll(Map<T, Long> map){
+    for (Map.Entry<T, Long> entry : map.entrySet()) {
+      increment(entry.getKey(), entry.getValue());
+    }
+  }
+
 }
