@@ -59,6 +59,11 @@ public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
     }
   }
 
+  @Override
+  public void putAll(Map<? extends K, ? extends V> m) {
+    throw new UnsupportedOperationException("putAll() not supported on LruHashMap due to data loss when retrieving evicted records via getAndClearEldestRemoved");
+  }
+
   public Map.Entry<K, V> getAndClearEldestRemoved() {
     Map.Entry<K, V> result = lastRemoved;
     lastRemoved = null;
