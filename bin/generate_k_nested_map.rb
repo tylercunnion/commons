@@ -329,6 +329,11 @@ public class #{className}<#{getGenerics((1..i))}, V> implements Iterable<#{class
       return (getKey().equals(entry.getKey()) && getValue().equals(entry.getValue()));
     }
 
+    @Override
+    public String toString() {
+      return String.format(\"%s -> %s\", keyTuple.toSet(), value);
+    }
+
   }
 }")
 
