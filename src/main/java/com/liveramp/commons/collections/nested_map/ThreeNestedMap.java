@@ -13,6 +13,10 @@ public class ThreeNestedMap<K1, K2, K3, V> implements Iterable<ThreeNestedMap.En
     this.defaultValueSupplier = defaultValueSupplier;
   }
 
+  /**
+  * @deprecated stores instance, so every default value modified is the same
+  */
+  @Deprecated
   public ThreeNestedMap(V defaultValue) {
     this(com.google.common.base.Suppliers.ofInstance(defaultValue));
   }

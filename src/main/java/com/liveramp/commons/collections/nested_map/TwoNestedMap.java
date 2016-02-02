@@ -13,6 +13,10 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
     this.defaultValueSupplier = defaultValueSupplier;
   }
 
+  /**
+  * @deprecated stores instance, so every default value modified is the same
+  */
+  @Deprecated
   public TwoNestedMap(V defaultValue) {
     this(com.google.common.base.Suppliers.ofInstance(defaultValue));
   }

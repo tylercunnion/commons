@@ -13,6 +13,10 @@ public class FourNestedMap<K1, K2, K3, K4, V> implements Iterable<FourNestedMap.
     this.defaultValueSupplier = defaultValueSupplier;
   }
 
+  /**
+  * @deprecated stores instance, so every default value modified is the same
+  */
+  @Deprecated
   public FourNestedMap(V defaultValue) {
     this(com.google.common.base.Suppliers.ofInstance(defaultValue));
   }

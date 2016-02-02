@@ -183,6 +183,10 @@ public class #{className}<#{getGenerics((1..i))}, V> implements Iterable<#{class
     this.defaultValueSupplier = defaultValueSupplier;
   }
 
+  /**
+  * @deprecated stores instance, so every default value modified is the same
+  */
+  @Deprecated
   public #{className}(V defaultValue) {
     this(com.google.common.base.Suppliers.ofInstance(defaultValue));
   }
