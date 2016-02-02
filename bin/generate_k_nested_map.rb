@@ -19,7 +19,7 @@ def getGets(k)
   generics = getGenerics((2..k))
   className = $classNames[k-1]
   firstMethod << "  public #{$classNames[k-1]}<#{getGenerics(2..k)}, V> get(K1 k1) {"
-  firstMethod << "    return (data.get(k1) == null) ? new #{(k == 2) ? "HashMap<#{generics}, V>()" : "#{className}<#{generics}, V>(defaultValue)"} : data.get(k1);"
+  firstMethod << "    return (data.get(k1) == null) ? new #{(k == 2) ? "HashMap<#{generics}, V>()" : "#{className}<#{generics}, V>(defaultValueSupplier)"} : data.get(k1);"
   firstMethod << "  }"
   methods << firstMethod
   (2..k-1).each do |i|
@@ -32,7 +32,7 @@ def getGets(k)
   end
   lastMethod = []
   lastMethod << "  public V get(#{getParams(1..k)}) {"
-  lastMethod << "    return (data.get(k1) == null || data.get(k1).get(#{getArgs(2..k)}) == null) ? defaultValue : data.get(k1).get(#{getArgs(2..k)});"
+  lastMethod << "    return (data.get(k1) == null || data.get(k1).get(#{getArgs(2..k)}) == null) ? defaultValueSupplier.get() : data.get(k1).get(#{getArgs(2..k)});"
   lastMethod << "  }"
   methods << lastMethod;
   return methods
@@ -177,17 +177,22 @@ import com.google.common.collect.Lists;
 
 public class #{className}<#{getGenerics((1..i))}, V> implements Iterable<#{className}.Entry<#{getGenerics((1..i))}, V>>, Serializable {
   protected final Map<K1, #{lastClassName}<#{getGenerics((2..i))}, V>> data = new HashMap<K1, #{lastClassName}<#{getGenerics(2..i)}, V>>();
-  private final V defaultValue;
+  private final com.google.common.base.Supplier<V> defaultValueSupplier;
+
+  public #{className}(com.google.common.base.Supplier<V> defaultValueSupplier) {
+    this.defaultValueSupplier = defaultValueSupplier;
+  }
 
   public #{className}(V defaultValue) {
-    this.defaultValue = defaultValue;
+    this(com.google.common.base.Suppliers.ofInstance(defaultValue));
   }
+
   public #{className}() {
-    this.defaultValue = null;
+    this((V)null);
   }
 
   public #{className}(#{className}<#{getGenerics(1..i)}, V> other){
-    this.defaultValue = other.defaultValue;
+    this.defaultValueSupplier = other.defaultValueSupplier;
     this.putAll(other);
   }
 ")
@@ -272,7 +277,7 @@ public class #{className}<#{getGenerics((1..i))}, V> implements Iterable<#{class
   public String toString() {
     return \"#{$numbers[i]}NestedMap{\" +
         \"data=\" + data +
-        \", defaultValue=\" + defaultValue +
+        \", defaultValueSupplier=\" + defaultValueSupplier +
         '}';
   }
 
