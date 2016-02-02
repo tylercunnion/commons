@@ -7,17 +7,22 @@ import com.google.common.collect.Lists;
 
 public class ThreeNestedMap<K1, K2, K3, V> implements Iterable<ThreeNestedMap.Entry<K1, K2, K3, V>>, Serializable {
   protected final Map<K1, TwoNestedMap<K2, K3, V>> data = new HashMap<K1, TwoNestedMap<K2, K3, V>>();
-  private final V defaultValue;
+  private final com.google.common.base.Supplier<V> defaultValueSupplier;
+
+  public ThreeNestedMap(com.google.common.base.Supplier<V> defaultValueSupplier) {
+    this.defaultValueSupplier = defaultValueSupplier;
+  }
 
   public ThreeNestedMap(V defaultValue) {
-    this.defaultValue = defaultValue;
+    this(com.google.common.base.Suppliers.ofInstance(defaultValue));
   }
+
   public ThreeNestedMap() {
-    this.defaultValue = null;
+    this((V)null);
   }
 
   public ThreeNestedMap(ThreeNestedMap<K1, K2, K3, V> other){
-    this.defaultValue = other.defaultValue;
+    this.defaultValueSupplier = other.defaultValueSupplier;
     this.putAll(other);
   }
   public Set<K1> key1Set() {
@@ -80,13 +85,13 @@ public class ThreeNestedMap<K1, K2, K3, V> implements Iterable<ThreeNestedMap.En
     }
   }
   public TwoNestedMap<K2, K3, V> get(K1 k1) {
-    return (data.get(k1) == null) ? new TwoNestedMap<K2, K3, V>(defaultValue) : data.get(k1);
+    return (data.get(k1) == null) ? new TwoNestedMap<K2, K3, V>(defaultValueSupplier) : data.get(k1);
   }
   public Map<K3, V> get(K1 k1, K2 k2) {
     return (data.get(k1) == null || data.get(k1).get(k2) == null) ? Collections.<K3, V>emptyMap() : data.get(k1).get(k2);
   }
   public V get(K1 k1, K2 k2, K3 k3) {
-    return (data.get(k1) == null || data.get(k1).get(k2, k3) == null) ? defaultValue : data.get(k1).get(k2, k3);
+    return (data.get(k1) == null || data.get(k1).get(k2, k3) == null) ? defaultValueSupplier.get() : data.get(k1).get(k2, k3);
   }
 
   public V get(ThreeKeyTuple tuple) {
@@ -174,7 +179,7 @@ public class ThreeNestedMap<K1, K2, K3, V> implements Iterable<ThreeNestedMap.En
   public String toString() {
     return "ThreeNestedMap{" +
         "data=" + data +
-        ", defaultValue=" + defaultValue +
+        ", defaultValueSupplier=" + defaultValueSupplier +
         '}';
   }
 

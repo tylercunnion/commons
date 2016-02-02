@@ -7,17 +7,22 @@ import com.google.common.collect.Lists;
 
 public class FourNestedMap<K1, K2, K3, K4, V> implements Iterable<FourNestedMap.Entry<K1, K2, K3, K4, V>>, Serializable {
   protected final Map<K1, ThreeNestedMap<K2, K3, K4, V>> data = new HashMap<K1, ThreeNestedMap<K2, K3, K4, V>>();
-  private final V defaultValue;
+  private final com.google.common.base.Supplier<V> defaultValueSupplier;
+
+  public FourNestedMap(com.google.common.base.Supplier<V> defaultValueSupplier) {
+    this.defaultValueSupplier = defaultValueSupplier;
+  }
 
   public FourNestedMap(V defaultValue) {
-    this.defaultValue = defaultValue;
+    this(com.google.common.base.Suppliers.ofInstance(defaultValue));
   }
+
   public FourNestedMap() {
-    this.defaultValue = null;
+    this((V)null);
   }
 
   public FourNestedMap(FourNestedMap<K1, K2, K3, K4, V> other){
-    this.defaultValue = other.defaultValue;
+    this.defaultValueSupplier = other.defaultValueSupplier;
     this.putAll(other);
   }
   public Set<K1> key1Set() {
@@ -126,7 +131,7 @@ public class FourNestedMap<K1, K2, K3, K4, V> implements Iterable<FourNestedMap.
     }
   }
   public ThreeNestedMap<K2, K3, K4, V> get(K1 k1) {
-    return (data.get(k1) == null) ? new ThreeNestedMap<K2, K3, K4, V>(defaultValue) : data.get(k1);
+    return (data.get(k1) == null) ? new ThreeNestedMap<K2, K3, K4, V>(defaultValueSupplier) : data.get(k1);
   }
   public TwoNestedMap<K3, K4, V> get(K1 k1, K2 k2) {
     return (data.get(k1) == null || data.get(k1).get(k2) == null) ? new TwoNestedMap<K3, K4, V>() : data.get(k1).get(k2);
@@ -135,7 +140,7 @@ public class FourNestedMap<K1, K2, K3, K4, V> implements Iterable<FourNestedMap.
     return (data.get(k1) == null || data.get(k1).get(k2, k3) == null) ? Collections.<K4, V>emptyMap() : data.get(k1).get(k2, k3);
   }
   public V get(K1 k1, K2 k2, K3 k3, K4 k4) {
-    return (data.get(k1) == null || data.get(k1).get(k2, k3, k4) == null) ? defaultValue : data.get(k1).get(k2, k3, k4);
+    return (data.get(k1) == null || data.get(k1).get(k2, k3, k4) == null) ? defaultValueSupplier.get() : data.get(k1).get(k2, k3, k4);
   }
 
   public V get(FourKeyTuple tuple) {
@@ -228,7 +233,7 @@ public class FourNestedMap<K1, K2, K3, K4, V> implements Iterable<FourNestedMap.
   public String toString() {
     return "FourNestedMap{" +
         "data=" + data +
-        ", defaultValue=" + defaultValue +
+        ", defaultValueSupplier=" + defaultValueSupplier +
         '}';
   }
 
