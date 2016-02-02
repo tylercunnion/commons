@@ -234,5 +234,10 @@ public class ThreeNestedMap<K1, K2, K3, V> implements Iterable<ThreeNestedMap.En
       return (getKey().equals(entry.getKey()) && getValue().equals(entry.getValue()));
     }
 
+    @Override
+    public String toString() {
+      return String.format("%s -> %s", keyTuple.toSet(), value);
+    }
+
   }
 }

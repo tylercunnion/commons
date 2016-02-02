@@ -190,5 +190,10 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
       return (getKey().equals(entry.getKey()) && getValue().equals(entry.getValue()));
     }
 
+    @Override
+    public String toString() {
+      return String.format("%s -> %s", keyTuple.toSet(), value);
+    }
+
   }
 }
