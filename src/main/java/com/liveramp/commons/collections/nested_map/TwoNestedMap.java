@@ -7,17 +7,26 @@ import com.google.common.collect.Lists;
 
 public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, K2, V>>, Serializable {
   protected final Map<K1, Map<K2, V>> data = new HashMap<K1, Map<K2, V>>();
-  private final V defaultValue;
+  private final com.google.common.base.Supplier<V> defaultValueSupplier;
 
-  public TwoNestedMap(V defaultValue) {
-    this.defaultValue = defaultValue;
+  public TwoNestedMap(com.google.common.base.Supplier<V> defaultValueSupplier) {
+    this.defaultValueSupplier = defaultValueSupplier;
   }
+
+  /**
+  * @deprecated stores instance, so every default value modified is the same
+  */
+  @Deprecated
+  public TwoNestedMap(V defaultValue) {
+    this(com.google.common.base.Suppliers.ofInstance(defaultValue));
+  }
+
   public TwoNestedMap() {
-    this.defaultValue = null;
+    this((V)null);
   }
 
   public TwoNestedMap(TwoNestedMap<K1, K2, V> other){
-    this.defaultValue = other.defaultValue;
+    this.defaultValueSupplier = other.defaultValueSupplier;
     this.putAll(other);
   }
   public Set<K1> key1Set() {
@@ -50,7 +59,7 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
     return (data.get(k1) == null) ? new HashMap<K2, V>() : data.get(k1);
   }
   public V get(K1 k1, K2 k2) {
-    return (data.get(k1) == null || data.get(k1).get(k2) == null) ? defaultValue : data.get(k1).get(k2);
+    return (data.get(k1) == null || data.get(k1).get(k2) == null) ? defaultValueSupplier.get() : data.get(k1).get(k2);
   }
 
   public V get(TwoKeyTuple tuple) {
@@ -133,7 +142,7 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
   public String toString() {
     return "TwoNestedMap{" +
         "data=" + data +
-        ", defaultValue=" + defaultValue +
+        ", defaultValueSupplier=" + defaultValueSupplier +
         '}';
   }
 
@@ -183,6 +192,11 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
       }
       Entry entry = (Entry) o;
       return (getKey().equals(entry.getKey()) && getValue().equals(entry.getValue()));
+    }
+
+    @Override
+    public String toString() {
+      return String.format("%s -> %s", keyTuple.toSet(), value);
     }
 
   }

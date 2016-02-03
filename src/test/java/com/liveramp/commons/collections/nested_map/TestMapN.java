@@ -1,14 +1,17 @@
 package com.liveramp.commons.collections.nested_map;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.google.common.base.Supplier;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class TestMapN {
@@ -76,7 +79,7 @@ public class TestMapN {
     assertEquals(new TwoNestedMap.Entry<>("a", "1", 35), entries2.next());
     assertEquals(new TwoNestedMap.Entry<>("b", "1", 34), entries2.next());
     assertFalse(entries2.hasNext());
-    
+
     for(TwoNestedMap.Entry<String, String, Integer> entry: map3){
       System.out.println(entry);
     }
@@ -87,6 +90,41 @@ public class TestMapN {
   }
 
   @Test
+  public void testDefault() {
+    TwoNestedMap<String, String, Integer> map3 = new TwoNestedMap<>();
+    map3.put("b", "1", 34);
+    map3.put("a", "1", 35);
+
+    assertNull(map3.get("a", "2"));
+    assertEquals(new HashMap<>(), map3.get("c"));
+  }
+
+  @Test
+  public void testDefaultDeprecatedReturnsReference() {
+    final String stale = "a";
+    final String fresh = "b";
+    final TwoNestedMap<String, String, RefType> map = new TwoNestedMap<>(new RefType(stale));
+    map.get("a", "b").setThing(fresh);
+    assertEquals(fresh, map.get("b", "a").getThing());
+  }
+
+  @Test
+  public void testDefaultReturnsNew() {
+    final String stale = "a";
+    final String fresh = "b";
+
+    final TwoNestedMap<Object, Object, RefType> map = new TwoNestedMap<>(new Supplier<RefType>() {
+      @Override
+      public RefType get() {
+        return new RefType(stale);
+      }
+    });
+
+    map.get("a", "b").setThing(fresh);
+    assertEquals(stale, map.get("b", "a").getThing());
+  }
+
+  @Test
   public void testDefaultEmptyNested() throws Exception {
 
     ThreeNestedMap<String, String, String, Long> map = new ThreeNestedMap<>(0l);
@@ -94,5 +132,21 @@ public class TestMapN {
 
     assertEquals(0l, (long) sub.get("some", "value"));
 
+  }
+
+  private static class RefType {
+    private String thing;
+
+    public RefType(String thing) {
+      this.thing = thing;
+    }
+
+    public String getThing() {
+      return thing;
+    }
+
+    public void setThing(String thing) {
+      this.thing = thing;
+    }
   }
 }
