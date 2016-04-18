@@ -1,4 +1,4 @@
-package com.liveramp.java_support.workflow;
+package com.liveramp.commons.state;
 
 public class TaskSummary {
 
