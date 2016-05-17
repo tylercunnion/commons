@@ -12,4 +12,11 @@ public class TwoNestedCountingMap <K1, K2> extends TwoNestedMap<K1, K2, Long>{
     put(k1, k2, newV);
     return newV;
   }
+
+  public void incrementAll(TwoNestedMap<K1, K2, Long> other){
+    for (Entry<K1, K2, Long> entry : other) {
+      incrementAndGet(entry.getK1(), entry.getK2(), entry.getValue());
+    }
+  }
+
 }
