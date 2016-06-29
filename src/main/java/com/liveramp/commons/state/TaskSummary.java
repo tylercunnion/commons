@@ -18,7 +18,39 @@ public class TaskSummary {
   private final Long maxReduceDuration;
   private final Long minReduceDuration;
   private final Long reduceDurationStDev;
+
+  private final Integer numTasksSampled;
+  private final Integer numTasksFailed;
+
   private final List<TaskFailure> taskFailures;
+
+  public TaskSummary(Long avgMapDuration,
+                     Long medianMapDuration,
+                     Long maxMapDuration,
+                     Long minMapDuration,
+                     Long mapDurationStDev,
+                     Long avgReduceDuration,
+                     Long medianReduceDuration,
+                     Long maxReduceDuration,
+                     Long minReduceDuration,
+                     Long reduceDurationStDev,
+                     Integer numTasksSampled,
+                     Integer numTasksFailed,
+                     List<TaskFailure> taskFailures) {
+    this.avgMapDuration = avgMapDuration;
+    this.medianMapDuration = medianMapDuration;
+    this.maxMapDuration = maxMapDuration;
+    this.minMapDuration = minMapDuration;
+    this.mapDurationStDev = mapDurationStDev;
+    this.avgReduceDuration = avgReduceDuration;
+    this.medianReduceDuration = medianReduceDuration;
+    this.maxReduceDuration = maxReduceDuration;
+    this.minReduceDuration = minReduceDuration;
+    this.reduceDurationStDev = reduceDurationStDev;
+    this.numTasksSampled = numTasksSampled;
+    this.numTasksFailed = numTasksFailed;
+    this.taskFailures = taskFailures;
+  }
 
   public TaskSummary(Long avgMapDuration,
                      Long medianMapDuration,
@@ -32,17 +64,19 @@ public class TaskSummary {
                      Long reduceDurationStDev,
                      List<TaskFailure> taskFailures) {
 
-    this.avgMapDuration = avgMapDuration;
-    this.medianMapDuration = medianMapDuration;
-    this.maxMapDuration = maxMapDuration;
-    this.minMapDuration = minMapDuration;
-    this.mapDurationStDev = mapDurationStDev;
-    this.avgReduceDuration = avgReduceDuration;
-    this.medianReduceDuration = medianReduceDuration;
-    this.maxReduceDuration = maxReduceDuration;
-    this.minReduceDuration = minReduceDuration;
-    this.reduceDurationStDev = reduceDurationStDev;
-    this.taskFailures = taskFailures;
+    this(avgMapDuration,
+        medianMapDuration,
+        maxMapDuration,
+        minMapDuration,
+        mapDurationStDev,
+        avgReduceDuration,
+        medianReduceDuration,
+        maxReduceDuration,
+        minReduceDuration,
+        reduceDurationStDev,
+        null,
+        null,
+        taskFailures);
   }
 
   public TaskSummary(Long avgMapDuration,
@@ -109,6 +143,14 @@ public class TaskSummary {
     return reduceDurationStDev;
   }
 
+  public Integer getNumTasksSampled() {
+    return numTasksSampled;
+  }
+
+  public Integer getNumFailed() {
+    return numTasksFailed;
+  }
+
   public List<TaskFailure> getTaskFailures() {
     return taskFailures;
   }
@@ -126,7 +168,17 @@ public class TaskSummary {
         ", maxReduceDuration=" + maxReduceDuration +
         ", minReduceDuration=" + minReduceDuration +
         ", reduceDurationStDev=" + reduceDurationStDev +
+        ", numTasksSampled=" + safeNullString(numTasksSampled) +
+        ", numTasksFailed=" + safeNullString(numTasksFailed) +
         ", taskFailures={" + Joiner.on(",").skipNulls().join(taskFailures) +
         "}}";
+  }
+
+  private String safeNullString(Object o) {
+    if (o == null) {
+      return "null";
+    } else {
+      return o.toString();
+    }
   }
 }
