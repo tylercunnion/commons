@@ -13,7 +13,15 @@ public class NestedProperties implements OverridableProperties{
         '}';
   }
 
-  public static class Builder {
+  public static interface IBuilder {
+
+    public IBuilder setProperty(String name, Object value, boolean isFinal);
+
+    public IBuilder setProperty(String name, Object value);
+
+  }
+
+  public static class Builder implements IBuilder{
     private Map<Object, OverridableProperties.Property> properties;
 
     public Builder() {
