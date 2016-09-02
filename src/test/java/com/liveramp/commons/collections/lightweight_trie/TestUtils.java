@@ -15,10 +15,12 @@
  */
 package com.liveramp.commons.collections.lightweight_trie;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class TestUtils extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class TestUtils {
+  @Test
   public void testIt() throws Exception {
     assertEquals(0, Utils.getCommonLength("abc".toCharArray(), 0, "bcd".toCharArray()));
     assertEquals(2, Utils.getCommonLength("abc".toCharArray(), 1, "bcd".toCharArray()));

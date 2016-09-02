@@ -19,18 +19,19 @@ package com.liveramp.commons.collections;
 import java.util.Iterator;
 import java.util.Map;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 
 import com.liveramp.commons.util.IntegerMemoryUsageEstimator;
 import com.liveramp.commons.util.LongMemoryUsageEstimator;
 import com.liveramp.commons.util.StringMemoryUsageEstimator;
 
-public class TestMemoryBoundLruHashMap extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
+public class TestMemoryBoundLruHashMap {
   @Test
   public void testNumBytesCapacity() {
-    MemoryBoundLruHashMap<Integer, String> map = new MemoryBoundLruHashMap<Integer, String>(128, new IntegerMemoryUsageEstimator(), new StringMemoryUsageEstimator());
+    MemoryBoundLruHashMap<Integer, String> map = new MemoryBoundLruHashMap<>(128, new IntegerMemoryUsageEstimator(), new StringMemoryUsageEstimator());
 
     assertEquals(0, map.size());
     assertEquals(0, map.getNumManagedBytes());
@@ -94,7 +95,7 @@ public class TestMemoryBoundLruHashMap extends TestCase {
 
   @Test
   public void testNumItemsCapacity() {
-    MemoryBoundLruHashMap<Integer, String> map = new MemoryBoundLruHashMap<Integer, String>(2, 1024, new IntegerMemoryUsageEstimator(), new StringMemoryUsageEstimator());
+    MemoryBoundLruHashMap<Integer, String> map = new MemoryBoundLruHashMap<>(2, 1024, new IntegerMemoryUsageEstimator(), new StringMemoryUsageEstimator());
 
     assertEquals(0, map.size());
     assertEquals(0, map.getNumManagedBytes());
@@ -144,7 +145,7 @@ public class TestMemoryBoundLruHashMap extends TestCase {
 
   @Test
   public void testIterator() {
-    MemoryBoundLruHashMap<Long, Long> map = new MemoryBoundLruHashMap<Long, Long>(10, 1024, new LongMemoryUsageEstimator(), new LongMemoryUsageEstimator());
+    MemoryBoundLruHashMap<Long, Long> map = new MemoryBoundLruHashMap<>(10, 1024, new LongMemoryUsageEstimator(), new LongMemoryUsageEstimator());
     map.putAndEvict(1L, 1L);
     map.putAndEvict(2L, 2L);
     map.putAndEvict(3L, 3L);
@@ -161,5 +162,4 @@ public class TestMemoryBoundLruHashMap extends TestCase {
 
     assertFalse(itr.hasNext());
   }
-
 }

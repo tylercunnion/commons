@@ -3,7 +3,7 @@ package com.liveramp.commons;
 import java.util.HashSet;
 
 import com.google.common.collect.Sets;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class TestAccessors {
@@ -15,7 +15,7 @@ public class TestAccessors {
 
   @Test(expected = IllegalArgumentException.class)
   public void testFirstOnEmpty() throws Exception {
-    Accessors.first(new HashSet<Object>());
+    Accessors.first(new HashSet<>());
   }
 
   @Test
@@ -30,7 +30,7 @@ public class TestAccessors {
 
   @Test(expected = IllegalArgumentException.class)
   public void testSecondOnEmpty() throws Exception {
-    Accessors.second(new HashSet<Object>());
+    Accessors.second(new HashSet<>());
   }
 
   @Test(expected = IllegalArgumentException.class)

@@ -16,14 +16,16 @@
 
 package com.liveramp.commons.collections;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 
-public class TestLruHashMap extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+public class TestLruHashMap {
   @Test
   public void testIt() throws Exception {
-    LruHashMap<String, String> m = new LruHashMap<String, String>(3);
+    LruHashMap<String, String> m = new LruHashMap<>(3);
 
     m.put("blah", "blah");
     assertEquals(1, m.size());

@@ -19,8 +19,8 @@ final class MultiChildNode<V> extends AbstractMultiChildNode<V> {
   private final char[] prefix;
 
   public MultiChildNode(char[] prefix,
-      V value,
-      AbstractNode<V>[] optimizedChildren) {
+                        V value,
+                        AbstractNode<V>... optimizedChildren) {
     super(value, optimizedChildren);
     this.prefix = prefix;
   }

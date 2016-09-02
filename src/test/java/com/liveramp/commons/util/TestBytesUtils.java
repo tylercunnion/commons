@@ -15,12 +15,14 @@
  */
 package com.liveramp.commons.util;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.nio.ByteBuffer;
 
-public class TestBytesUtils extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+public class TestBytesUtils {
   private static final byte[] A = {1, 2, 3};
 
   private static final byte[] B = {1, 1, 3};
@@ -28,17 +30,19 @@ public class TestBytesUtils extends TestCase {
   private static final byte[] D = {1, 2, 4};
   private static final byte[] E = {(byte) 0x80, 2, 4};
 
+  @Test
   public void testCompareBytes() throws Exception {
-    Assert.assertEquals(-1, BytesUtils.compareBytesUnsigned(B, 0, A, 0, 3));
-    Assert.assertEquals(1, BytesUtils.compareBytesUnsigned(A, 0, B, 0, 3));
-    Assert.assertEquals(-1, BytesUtils.compareBytesUnsigned(A, 0, C, 0, 3));
-    Assert.assertEquals(-1, BytesUtils.compareBytesUnsigned(A, 1, C, 1, 2));
-    Assert.assertEquals(0, BytesUtils.compareBytesUnsigned(A, 1, D, 1, 1));
+    assertEquals(-1, BytesUtils.compareBytesUnsigned(B, 0, A, 0, 3));
+    assertEquals(1, BytesUtils.compareBytesUnsigned(A, 0, B, 0, 3));
+    assertEquals(-1, BytesUtils.compareBytesUnsigned(A, 0, C, 0, 3));
+    assertEquals(-1, BytesUtils.compareBytesUnsigned(A, 1, C, 1, 2));
+    assertEquals(0, BytesUtils.compareBytesUnsigned(A, 1, D, 1, 1));
 
-    Assert.assertEquals(-1, BytesUtils.compareBytesUnsigned(A, 0, E, 0, 3));
-    Assert.assertEquals(1, BytesUtils.compareBytesUnsigned(E, 0, A, 0, 3));
+    assertEquals(-1, BytesUtils.compareBytesUnsigned(A, 0, E, 0, 3));
+    assertEquals(1, BytesUtils.compareBytesUnsigned(E, 0, A, 0, 3));
   }
 
+  @Test
   public void testException() {
     try {
       BytesUtils.compareBytesUnsigned(A, 1, B, 0, 3);
@@ -52,29 +56,32 @@ public class TestBytesUtils extends TestCase {
     }
   }
 
+  @Test
   public void testDeepCopy() {
     // Without allocation
     ByteBuffer copyA = BytesUtils.byteBufferDeepCopy(ByteBuffer.wrap(A));
-    Assert.assertEquals(0, BytesUtils.compareBytesUnsigned(copyA, ByteBuffer.wrap(A)));
+    assertEquals(0, BytesUtils.compareBytesUnsigned(copyA, ByteBuffer.wrap(A)));
 
     // With allocation capable
     ByteBuffer copyB = null;
 
     byte[] v1 = {1};
     copyB = BytesUtils.byteBufferDeepCopy(ByteBuffer.wrap(v1), copyB);
-    Assert.assertEquals(0, BytesUtils.compareBytesUnsigned(ByteBuffer.wrap(v1), copyB));
+    assertEquals(0, BytesUtils.compareBytesUnsigned(ByteBuffer.wrap(v1), copyB));
 
     byte[] v2 = {1, 2 , 3};
     copyB = BytesUtils.byteBufferDeepCopy(ByteBuffer.wrap(v2), copyB);
-    Assert.assertEquals(0, BytesUtils.compareBytesUnsigned(ByteBuffer.wrap(v2), copyB));
+    assertEquals(0, BytesUtils.compareBytesUnsigned(ByteBuffer.wrap(v2), copyB));
   }
 
+  @Test
   public void testBytesToHexString() {
     byte[] b = {0x0, 0x1, 0x8, 0x10, (byte)0xf0, (byte)0xaf};
     String s = BytesUtils.bytesToHexString(ByteBuffer.wrap(b));
     assertEquals("00 01 08 10 f0 af", s);
   }
 
+  @Test
   public void testHexStringToBytes() {
     String s = "00 01 08 10 f0 af";
     ByteBuffer expectedB = ByteBuffer.wrap(new byte[] {0x0, 0x1, 0x8, 0x10, (byte)0xf0, (byte)0xaf});
