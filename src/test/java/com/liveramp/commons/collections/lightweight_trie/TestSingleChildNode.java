@@ -15,16 +15,19 @@
  */
 package com.liveramp.commons.collections.lightweight_trie;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class TestSingleChildNode extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+public class TestSingleChildNode {
+  @Test
   public void testIt() throws Exception {
-    AbstractNode<Integer> child = new LeafNode<Integer>("abc".toCharArray(), 7);
-    SingleChildNode<Integer> node = new SingleChildNode<Integer>("".toCharArray(), 5, child);
+    AbstractNode<Integer> child = new LeafNode<>("abc".toCharArray(), 7);
+    SingleChildNode<Integer> node = new SingleChildNode<>("".toCharArray(), 5, child);
     assertEquals(Integer.valueOf(7), node.get("abc".toCharArray(), 0));
-    Assert.assertNull(node.get("abd".toCharArray(), 0));
-    Assert.assertNull(node.get("ab".toCharArray(), 0));
+    assertNull(node.get("abd".toCharArray(), 0));
+    assertNull(node.get("ab".toCharArray(), 0));
     assertEquals(child, node.getChildren()[0]);
   }
 }

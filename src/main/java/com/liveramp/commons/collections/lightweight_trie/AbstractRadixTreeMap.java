@@ -25,17 +25,17 @@ abstract class AbstractRadixTreeMap<V> implements Map<String, V> {
 
   @Override
   public final Set<java.util.Map.Entry<String, V>> entrySet() {
-    return new EntrySet<V>(this, getRoot());
+    return new EntrySet<>(this, getRoot());
   }
 
   @Override
   public final Set<String> keySet() {
-    return new KeySet<V>(this, getRoot());
+    return new KeySet<>(this, getRoot());
   }
 
   @Override
   public final Collection<V> values() {
-    ArrayList<V> l = new ArrayList<V>(size());
+    ArrayList<V> l = new ArrayList<>(size());
     for (Map.Entry<String, V> entry : entrySet()) {
       l.add(entry.getValue());
     }
