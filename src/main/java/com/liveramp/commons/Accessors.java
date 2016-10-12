@@ -63,6 +63,13 @@ public class Accessors {
     return val;
   }
 
+  public static <T> T only(T[] ts) {
+    Preconditions.checkNotNull(ts, "Array is null");
+    Preconditions.checkArgument(ts.length == 1, String.format("Array has %d elements instead of just 1", ts.length));
+
+    return ts[0];
+  }
+
   public static <T> T last(List<T> c) {
     Preconditions.checkNotNull(c, "Null collection");
     Preconditions.checkArgument(!c.isEmpty(), "Empty collection");
