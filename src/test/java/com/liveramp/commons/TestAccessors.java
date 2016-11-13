@@ -23,7 +23,7 @@ public class TestAccessors {
 
   @Test
   public void testReturnFirst() throws Exception {
-    Assert.assertEquals(1L, Accessors.first(Sets.newHashSet(1L, 2L)).longValue());
+    Assert.assertEquals(1L, Accessors.first(Lists.newArrayList(1L, 2L)).longValue());
   }
 
   @Test(expected = NullPointerException.class)
@@ -43,7 +43,7 @@ public class TestAccessors {
 
   @Test
   public void testReturnSecond() throws Exception {
-    Assert.assertEquals(2L, Accessors.second(Sets.newHashSet(1L, 2L)).longValue());
+    Assert.assertEquals(2L, Accessors.second(Lists.newArrayList(1L, 2L)).longValue());
   }
 
   @Test(expected = NullPointerException.class)
