@@ -41,7 +41,7 @@ public class Accessors {
     return iter.next();
   }
 
-  public static <T> T only(Iterable<T> c ){
+  public static <T> T only(Iterable<T> c) {
     Preconditions.checkNotNull(c, "Null iterable");
 
     Iterator<T> iterator = c.iterator();
@@ -68,6 +68,31 @@ public class Accessors {
     Preconditions.checkArgument(ts.length == 1, String.format("Array has %d elements instead of just 1", ts.length));
 
     return ts[0];
+  }
+
+  public static <T> Optional<T> onlyOrAbsent(Iterable<T> c) {
+    Preconditions.checkNotNull(c, "Null iterable");
+
+    Iterator<T> iterator = c.iterator();
+
+    if (!iterator.hasNext()) {
+      return Optional.absent();
+    }
+
+    T val = iterator.next();
+
+    if (iterator.hasNext()) {
+      throw new IllegalArgumentException(
+          String.format(
+              "Iterable has more than one element. First element: %s, Second element: %s, Has third element: %s",
+              val,
+              iterator.next(),
+              iterator.hasNext()
+          )
+      );
+    }
+
+    return Optional.of(val);
   }
 
   public static <T> T last(List<T> c) {
