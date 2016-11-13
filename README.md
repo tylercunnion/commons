@@ -1,6 +1,8 @@
 Project commons
 ========
-       
+
+[![Build Status](https://travis-ci.org/LiveRamp/commons.svg?branch=master)](https://travis-ci.org/LiveRamp/commons)
+
 LiveRamp commons is a collection of common libraries for Java.
 
 License
