@@ -61,7 +61,7 @@ public class TestAccessors {
     Assert.assertEquals(1L, Accessors.onlyOrAbsent(Lists.newArrayList(1L)).get().longValue());
   }
 
-  @Test(expected = Accessors.TooManyEntriesException.class)
+  @Test(expected = Accessors.TooManyElementsException.class)
   public void testOnlyOrAbsentOnTwo() throws Exception {
     Accessors.onlyOrAbsent(Lists.newArrayList(1L, 2L));
   }

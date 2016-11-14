@@ -70,7 +70,7 @@ public class Accessors {
     return ts[0];
   }
 
-  public static <T> Optional<T> onlyOrAbsent(Iterable<T> c) throws TooManyEntriesException {
+  public static <T> Optional<T> onlyOrAbsent(Iterable<T> c) throws TooManyElementsException {
     Preconditions.checkNotNull(c, "Null iterable");
 
     Iterator<T> iterator = c.iterator();
@@ -82,7 +82,7 @@ public class Accessors {
     T val = iterator.next();
 
     if (iterator.hasNext()) {
-      throw new TooManyEntriesException(
+      throw new TooManyElementsException(
           String.format(
               "Iterable has more than one element. First element: %s, Second element: %s, Has third element: %s",
               val,
@@ -101,8 +101,8 @@ public class Accessors {
     return c.get(c.size() - 1);
   }
 
-  public static class TooManyEntriesException extends Exception {
-    TooManyEntriesException(final String message) {
+  public static class TooManyElementsException extends Exception {
+    TooManyElementsException(final String message) {
       super(message);
     }
   }
