@@ -1,26 +1,27 @@
 /**
- *  Copyright 2011 LiveRamp
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * Copyright 2011 LiveRamp
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.liveramp.commons.util;
 
 import java.io.UnsupportedEncodingException;
-import org.apache.commons.codec.binary.Hex;
 import java.nio.ByteBuffer;
 import java.util.Comparator;
 
+import com.google.common.primitives.Longs;
 import com.google.common.primitives.UnsignedBytes;
+import org.apache.commons.codec.binary.Hex;
 
 public class BytesUtils {
   private static final Comparator<byte[]> BYTES_COMPARATOR = UnsignedBytes.lexicographicalComparator();
@@ -58,10 +59,10 @@ public class BytesUtils {
 
   public static byte[] intToBytes(int value) {
     return new byte[]{
-        (byte) (value >>> 24),
-        (byte) (value >>> 16),
-        (byte) (value >>> 8),
-        (byte) value};
+        (byte)(value >>> 24),
+        (byte)(value >>> 16),
+        (byte)(value >>> 8),
+        (byte)value};
   }
 
   public static int bytesToInt(byte[] b) {
@@ -69,6 +70,20 @@ public class BytesUtils {
         + ((b[1] & 0xFF) << 16)
         + ((b[2] & 0xFF) << 8)
         + (b[3] & 0xFF);
+  }
+
+  /**
+   * Or just use {@link com.google.common.primitives.Longs#toByteArray(long)}
+   */
+  public static byte[] longToBytes(long l) {
+    return Longs.toByteArray(l);
+  }
+
+  /**
+   * Or just use {@link com.google.common.primitives.Longs#fromByteArray(byte[])}
+   */
+  public static long bytesToLong(byte[] b) {
+    return Longs.fromByteArray(b);
   }
 
   public static String bytesToString(byte[] b) {
@@ -135,7 +150,7 @@ public class BytesUtils {
     }
     byte[] result = new byte[hexString.length() / 2];
     for (int i = 0; i < hexString.length(); i += 2) {
-      result[i / 2] = (byte) Integer.valueOf(hexString.substring(i, i + 2), 16).intValue();
+      result[i / 2] = (byte)Integer.valueOf(hexString.substring(i, i + 2), 16).intValue();
     }
     return ByteBuffer.wrap(result);
   }
