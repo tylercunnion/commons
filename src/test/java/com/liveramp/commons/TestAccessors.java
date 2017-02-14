@@ -66,4 +66,19 @@ public class TestAccessors {
     Accessors.onlyOrAbsent(Lists.newArrayList(1L, 2L));
   }
 
+  @Test
+  public void testFirstOrEmptyReturnsFirstElement() {
+    Assert.assertEquals(java.util.Optional.of(1L), Accessors.firstOrEmpty(Lists.newArrayList(1L, 2L)));
+  }
+
+  @Test
+  public void testFirstOrEmptyReturnsEmptyForEmptyIterable() {
+    Assert.assertEquals(java.util.Optional.empty(), Accessors.firstOrEmpty(Collections.emptyList()));
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testFirstOrEmptyThrowsNpeForNull() {
+    Assert.assertEquals(java.util.Optional.empty(), Accessors.firstOrEmpty(null));
+  }
+
 }

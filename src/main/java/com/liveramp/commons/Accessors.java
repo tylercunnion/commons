@@ -8,6 +8,10 @@ import com.google.common.base.Preconditions;
 
 public class Accessors {
 
+  /**
+   * Use {@link #firstOrEmpty(Iterable)}
+   */
+  @Deprecated
   public static <T> Optional<T> firstOrAbsent(Iterable<T> c) {
     Preconditions.checkNotNull(c, "Null iterable");
 
@@ -18,6 +22,10 @@ public class Accessors {
     } else {
       return Optional.of(first(c));
     }
+  }
+
+  public static <T> java.util.Optional<T> firstOrEmpty(Iterable<T> c) {
+    return java.util.Optional.ofNullable(firstOrAbsent(c).orNull());
   }
 
   public static <T> T first(Iterable<T> c) {
