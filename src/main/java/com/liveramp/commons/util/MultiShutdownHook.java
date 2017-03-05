@@ -24,6 +24,10 @@ public class MultiShutdownHook extends Thread {
     this.hooks.addFirst(hook);
   }
 
+  public void remove(Hook hook){
+    this.hooks.remove(hook);
+  }
+
   @Override
   public void run() {
     try {
