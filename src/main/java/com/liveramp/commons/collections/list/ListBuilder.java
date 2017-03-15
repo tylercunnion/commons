@@ -11,18 +11,26 @@ public class ListBuilder<T> {
 
   private final List<T> list;
 
-  public ListBuilder(){
+  public ListBuilder() {
     list = Lists.newArrayList();
   }
 
-  public ListBuilder<T> add(T item){
+  public ListBuilder<T> add(T item) {
     list.add(item);
     return this;
   }
 
-  public ListBuilder<T> addAll(Collection<T> item){
+  public ListBuilder<T> addAll(Collection<T> item) {
     list.addAll(item);
     return this;
+  }
+
+  public ListBuilder<T> addAll(Iterable<T> item) {
+    return addAll(Lists.newArrayList(item));
+  }
+
+  public ListBuilder<T> addAll(T[] item) {
+    return addAll(Lists.newArrayList(item));
   }
 
   public List<T> get() {
