@@ -103,6 +103,15 @@ public class Accessors {
     return Optional.of(val);
   }
 
+  public static <T> java.util.Optional<T> onlyOrEmpty(Iterable<T> c) {
+    final Optional<T> maybeOnly = onlyOrAbsent(c);
+    if (maybeOnly.isPresent()) {
+      return java.util.Optional.of(maybeOnly.get());
+    } else {
+      return java.util.Optional.empty();
+    }
+  }
+
   public static <T> T last(List<T> c) {
     Preconditions.checkNotNull(c, "Null collection");
     Preconditions.checkArgument(!c.isEmpty(), "Empty collection");
