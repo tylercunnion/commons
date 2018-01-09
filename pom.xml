@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.liveramp</groupId>
     <artifactId>pom-common</artifactId>
-    <version>1.4</version>
+    <version>1.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>commons</artifactId>
@@ -17,7 +17,29 @@
     <tag>HEAD</tag>
   </scm>
 
-  <description>Common data structures and libraries</description>
+  <repositories>
+    <repository>
+      <id>conjars.org</id>
+      <name>Conjars</name>
+      <url>http://conjars.org/repo</url>
+    </repository>
+    <repository>
+      <id>liveramp-repositories</id>
+      <name>Liveramp Repositories</name>
+      <url>http://repository.liveramp.com/artifactory/liveramp-repositories</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>sonatype-releases</id>
+      <url>http://oss.sonatype.org/content/repositories/releases</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>clojars.org</id>
+      <url>http://clojars.org/repo</url>
+    </pluginRepository>
+  </pluginRepositories>
 
   <dependencies>
 
