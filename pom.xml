@@ -8,7 +8,7 @@
   </parent>
 
   <artifactId>commons</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
 
   <scm>
     <connection>scm:git:git@github.com:LiveRamp/commons.git</connection>
