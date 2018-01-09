@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.liveramp</groupId>
     <artifactId>pom-common</artifactId>
-    <version>1.5</version>
+    <version>1.6-SNAPSHOT</version>
   </parent>
 
   <artifactId>commons</artifactId>
