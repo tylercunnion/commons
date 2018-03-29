@@ -4,11 +4,11 @@
   <parent>
     <groupId>com.liveramp</groupId>
     <artifactId>pom-common</artifactId>
-    <version>1.6-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>commons</artifactId>
-  <version>1.4-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
 
   <scm>
     <connection>scm:git:git@github.com:LiveRamp/commons.git</connection>
