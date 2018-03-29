@@ -49,6 +49,23 @@ public class Accessors {
     return iter.next();
   }
 
+
+  /**
+   * Verifies an iterable object contains a single value and returns that value.
+   * The provided iterable object is expected to contain one and only one item.
+   * Any violation results in an exception.
+   *
+   * @param c The iterable object.
+   * @param <T> The type of objects in {@code c}.
+   * @return
+   * The value of the item in {@code c}, of type {@code <T>}.
+   * This value is allowed to be {@code null}.
+   *
+   * @throws RuntimeException
+   * If {@code c} is null, is empty, or has more than one item.
+   * Note that {@link RuntimeException} is a non-checked exception and thus does not
+   * require a try/catch in the caller.
+   */
   public static <T> T only(Iterable<T> c) {
     Preconditions.checkNotNull(c, "Null iterable");
 
@@ -70,6 +87,24 @@ public class Accessors {
 
     return val;
   }
+
+
+  /**
+   * Verifies an array contains a single value and returns that value.
+   * The provided array is expected to contain one and only one entry.
+   * Any violation results in an exception.
+   *
+   * @param ts The array object.
+   * @param <T> The type of objects in {@code ts}.
+   * @return
+   * The value in {@code ts[0]} of type {@code <T>}.
+   * This value is allowed to be {@code null}.
+   *
+   * @throws RuntimeException
+   * If {@code ts} is null or does not have length one.
+   * Note that {@link RuntimeException} is a non-checked exception and thus does not
+   * require a try/catch in the caller.
+   */
 
   public static <T> T only(T[] ts) {
     Preconditions.checkNotNull(ts, "Array is null");
