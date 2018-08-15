@@ -17,6 +17,9 @@ public class TwoKeyTuple<K1, K2> implements Serializable{
   public List toList() {
     return Lists.newArrayList(k1, k2);
   }
+  public Set toSet() {
+    return Sets.newHashSet(k1, k2);
+  }
 
   @Override
   public boolean equals(Object o) {

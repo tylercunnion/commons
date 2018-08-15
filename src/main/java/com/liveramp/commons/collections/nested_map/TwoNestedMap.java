@@ -196,7 +196,7 @@ public class TwoNestedMap<K1, K2, V> implements Iterable<TwoNestedMap.Entry<K1, 
 
     @Override
     public String toString() {
-      return String.format("%s -> %s", keyTuple.toList(), value);
+      return String.format("%s -> %s", keyTuple.toSet(), value);
     }
 
   }
