@@ -1,4 +1,8 @@
-language: java
+language:
+  - ruby
+
+rvm:
+  - 2.3.0
 
 jdk:
   - oraclejdk8
@@ -8,3 +12,8 @@ notifications:
 
 install:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true --batch-mode --quiet --show-version
+
+script:
+  - mvn test -B
+  - ruby bin/generate_k_nested_map.rb 4 src/main/java/com/liveramp/commons/collections/nested_map/
+  - git diff-index --quiet HEAD -- || exit 1
