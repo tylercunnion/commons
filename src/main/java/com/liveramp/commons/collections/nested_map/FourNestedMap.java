@@ -297,7 +297,7 @@ public class FourNestedMap<K1, K2, K3, K4, V> implements Iterable<FourNestedMap.
 
     @Override
     public String toString() {
-      return String.format("%s -> %s", keyTuple.toSet(), value);
+      return String.format("%s -> %s", keyTuple.toList(), value);
     }
 
   }

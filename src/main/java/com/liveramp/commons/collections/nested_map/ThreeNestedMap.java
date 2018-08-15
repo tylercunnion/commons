@@ -240,7 +240,7 @@ public class ThreeNestedMap<K1, K2, K3, V> implements Iterable<ThreeNestedMap.En
 
     @Override
     public String toString() {
-      return String.format("%s -> %s", keyTuple.toSet(), value);
+      return String.format("%s -> %s", keyTuple.toList(), value);
     }
 
   }

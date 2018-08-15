@@ -21,9 +21,6 @@ public class FourKeyTuple<K1, K2, K3, K4> implements Serializable{
   public List toList() {
     return Lists.newArrayList(k1, k2, k3, k4);
   }
-  public Set toSet() {
-    return Sets.newHashSet(k1, k2, k3, k4);
-  }
 
   @Override
   public boolean equals(Object o) {

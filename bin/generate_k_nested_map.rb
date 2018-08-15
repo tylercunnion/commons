@@ -61,8 +61,8 @@ def getSorts(k)
   ((2..(k-1)).to_a).each do |i|
     sort = []
     generics = getGenerics((1..i))
-    sort << "  public List<#{$numbers[i] + "KeyTuple"}<#{generics}>> key#{(1..i).to_a.to_s}Sort(Comparator<#{$numbers[i]}KeyTuple<#{generics}>> sort) {"
-    sort << "    List<#{$numbers[i] + "KeyTuple"}<#{generics}>> list = Lists.newArrayList(key#{(1..i).to_a.to_s}Set());"
+    sort << "  public List<#{$numbers[i] + "KeyTuple"}<#{generics}>> key#{(1..i).to_a.join}Sort(Comparator<#{$numbers[i]}KeyTuple<#{generics}>> sort) {"
+    sort << "    List<#{$numbers[i] + "KeyTuple"}<#{generics}>> list = Lists.newArrayList(key#{(1..i).to_a.join}Set());"
     sort << "    Collections.sort(list, sort);"
     sort << "    return list;"
     sort << "  }"
@@ -85,7 +85,7 @@ def getKeySets(k)
 
   ((2..k).to_a).each do |i|
     method = []
-    method << "  public Set<K#{i}> key#{i}Set(#{getParams((1..(i-1))).to_a}) {"
+    method << "  public Set<K#{i}> key#{i}Set(#{getParams((1..(i-1))).split(" ").join(" ")}) {"
     method << "    if(data.get(k1) != null) {"
     method << "      return data.get(k1).key#{(k == 2 && i == 2) ? "" : i-1}Set(#{getArgs((2..i-1).to_a)});"
     method << "    } else {"
@@ -99,7 +99,7 @@ def getKeySets(k)
     interval = (pair[0]..pair[1]).to_a
     method = []
     size = $numbers[interval.length]
-    method << "  public Set<#{size}KeyTuple<#{getGenerics(interval)}>> key#{interval.to_s}Set(#{getParams((1..interval[0]-1).to_a)}) {"
+    method << "  public Set<#{size}KeyTuple<#{getGenerics(interval)}>> key#{interval.join}Set(#{getParams((1..interval[0]-1).to_a)}) {"
     method << "    if(data.keySet().isEmpty()) {"
     method << "      return Collections.emptySet();"
     method << "    }"
@@ -107,19 +107,19 @@ def getKeySets(k)
       method << "    Set<" + size + "KeyTuple<#{getGenerics(interval)}>> tuples = new HashSet<#{size}KeyTuple<#{getGenerics(interval)}>>();"
       method << "    for(K1 k1 : data.keySet()) {"
       interval.reverse.drop(1).reverse.each do |i|
-        method << "#{(["  "] * (i + 2)).to_s}#{($classNames[k - i])}<#{getGenerics((i + 1..k))}, V> map#{i.to_s} = #{((i == 1) ? "data.get(k1)" : "map" + (i-1).to_s + ".get(k" + (i).to_s + ")")};"
-        method << "#{(["  "] * (i + 2)).to_s}for(K#{(i + 1).to_s} k#{(i + 1).to_s}: map#{i.to_s}.key#{(k - i == 1) ? "" : 1}Set()) {"
+        method << "#{(["  "] * (i + 2)).join}#{($classNames[k - i])}<#{getGenerics((i + 1..k))}, V> map#{i.to_s} = #{((i == 1) ? "data.get(k1)" : "map" + (i-1).to_s + ".get(k" + (i).to_s + ")")};"
+        method << "#{(["  "] * (i + 2)).join}for(K#{(i + 1).to_s} k#{(i + 1).to_s}: map#{i.to_s}.key#{(k - i == 1) ? "" : 1}Set()) {"
       end
-      method << "#{(["  "] * (interval.last + 2)).to_s}tuples.add(new #{size}KeyTuple<#{getGenerics(interval)}>(#{getArgs(interval)}));"
+      method << "#{(["  "] * (interval.last + 2)).join}tuples.add(new #{size}KeyTuple<#{getGenerics(interval)}>(#{getArgs(interval)}));"
       interval.reverse.drop(1).each do |i|
-        method << "#{(["  "] * (i + 2)).to_s}}"
+        method << "#{(["  "] * (i + 2)).join}}"
       end
       method << "    }"
       method << "    return tuples;"
       method << "  }"
     else
       method << "    if(data.get(k1) != null) {"
-      method << "      return data.get(k1).key#{interval.map {|i| i - 1}}Set(#{getArgs((2..interval[0] - 1).to_a)});"
+      method << "      return data.get(k1).key#{interval.map {|i| i - 1}.join}Set(#{getArgs((2..interval[0] - 1).to_a)});"
       method << "    } else {"
       method << "      return Collections.emptySet();"
       method << "    }"
@@ -251,7 +251,7 @@ public class #{className}<#{getGenerics((1..i))}, V> implements Iterable<#{class
   }
 
   public Set<Entry<#{getGenerics(1..i)}, V>> entrySet() {
-    Set<#{tupleName}<#{getGenerics(1..i)}>> tuples = key#{(1..i).to_a.to_s}Set();
+    Set<#{tupleName}<#{getGenerics(1..i)}>> tuples = key#{(1..i).to_a.join}Set();
     Iterator<#{tupleName}<#{getGenerics(1..i)}>> i = tuples.iterator();
     Set<Entry<#{getGenerics(1..i)}, V>> entries = new HashSet<Entry<#{getGenerics(1..i)}, V>>();
     while(i.hasNext()) {
