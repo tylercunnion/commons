@@ -19,9 +19,6 @@ public class ThreeKeyTuple<K1, K2, K3> implements Serializable{
   public List toList() {
     return Lists.newArrayList(k1, k2, k3);
   }
-  public Set toSet() {
-    return Sets.newHashSet(k1, k2, k3);
-  }
 
   @Override
   public boolean equals(Object o) {
