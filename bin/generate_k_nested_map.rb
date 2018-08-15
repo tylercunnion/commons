@@ -335,7 +335,7 @@ public class #{className}<#{getGenerics((1..i))}, V> implements Iterable<#{class
 
     @Override
     public String toString() {
-      return String.format(\"%s -> %s\", keyTuple.toSet(), value);
+      return String.format(\"%s -> %s\", keyTuple.toList(), value);
     }
 
   }
@@ -358,9 +358,6 @@ public class #{tupleName}<#{getGenerics(1..i)}> implements Serializable{")
 
   public List toList() {
     return Lists.newArrayList(#{getArgs(1..i)});
-  }
-  public Set toSet() {
-    return Sets.newHashSet(#{getArgs(1..i)});
   }
 
   @Override
