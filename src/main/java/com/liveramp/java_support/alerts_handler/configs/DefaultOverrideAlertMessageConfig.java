@@ -5,8 +5,6 @@ import java.util.List;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
-import com.liveramp.java_support.alerts_handler.OverrideAlertMessageConfig;
-
 public class DefaultOverrideAlertMessageConfig implements OverrideAlertMessageConfig {
   private final Optional<Boolean> isAllowHtml;
   private final Optional<List<String>> tagsToSet;
