@@ -1,4 +1,4 @@
-package com.liveramp.java_support.alerts_handler;
+package com.liveramp.java_support.alerts_handler.recipients;
 
 import java.util.List;
 

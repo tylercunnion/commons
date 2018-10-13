@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
-import com.liveramp.java_support.alerts_handler.AlertMessageConfig;
-
 public class DefaultAlertMessageConfig implements AlertMessageConfig {
   private final boolean isAllowHtml;
   private final List<String> tags;

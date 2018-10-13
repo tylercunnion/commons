@@ -5,7 +5,9 @@ import java.util.List;
 import com.google.common.base.Optional;
 import org.codehaus.plexus.util.ExceptionUtils;
 
+import com.liveramp.java_support.alerts_handler.configs.AlertMessageConfig;
 import com.liveramp.java_support.alerts_handler.configs.DefaultOverrideAlertMessageConfig;
+import com.liveramp.java_support.alerts_handler.configs.OverrideAlertMessageConfig;
 
 public class EmailAlertMessage implements AlertMessage {
   final String subject;

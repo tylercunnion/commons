@@ -3,6 +3,7 @@ package com.liveramp.java_support.alerts_handler;
 import java.util.List;
 
 import com.liveramp.java_support.alerts_handler.recipients.AlertRecipient;
+import com.liveramp.java_support.alerts_handler.recipients.RecipientListBuilder;
 
 public interface AlertsHandler {
 

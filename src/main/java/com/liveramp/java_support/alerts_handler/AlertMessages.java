@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.base.Optional;
 
 import com.liveramp.java_support.alerts_handler.configs.DefaultOverrideAlertMessageConfig;
+import com.liveramp.java_support.alerts_handler.configs.OverrideAlertMessageConfig;
 
 public class AlertMessages {
   public static class Builder {

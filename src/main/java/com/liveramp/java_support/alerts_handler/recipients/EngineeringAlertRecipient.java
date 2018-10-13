@@ -2,8 +2,7 @@ package com.liveramp.java_support.alerts_handler.recipients;
 
 import com.google.common.base.Optional;
 
-import com.liveramp.java_support.alerts_handler.AlertsHandlerConfig;
-import com.liveramp.java_support.alerts_handler.RecipientListBuilder;
+import com.liveramp.java_support.alerts_handler.configs.AlertsHandlerConfig;
 
 public class EngineeringAlertRecipient implements AlertRecipient {
   private final AlertSeverity severity;

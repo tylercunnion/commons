@@ -1,5 +1,6 @@
-package com.liveramp.java_support.alerts_handler;
+package com.liveramp.java_support.alerts_handler.configs;
 
+import com.liveramp.java_support.alerts_handler.configs.AlertMessageConfig;
 import com.liveramp.java_support.alerts_handler.recipients.AlertRecipient;
 
 public interface AlertsHandlerConfig {
